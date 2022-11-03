@@ -1,0 +1,43 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+
+  button {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 5px;
+    background: #d9d9d9;
+    color: #727272;
+    font-weight: 500;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.name {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d9d9d9;
+  border-radius: 1000px;
+  font-weight: 600;
+  color: #727272;
+  font-size: 8px;
+  height: 15px;
+  width: 15px;
+  user-select: none;
+}

@@ -1,0 +1,17 @@
+.button {
+  font-size: 12px;
+  font-weight: 500;
+  background: #fff;
+  border-radius: 6px;
+  border: none;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+}

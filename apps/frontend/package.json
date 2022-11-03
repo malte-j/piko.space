@@ -1,0 +1,49 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "vite --port=5500 --host=0.0.0.0",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.0.2",
+    "@radix-ui/react-dialog": "^1.0.0",
+    "@radix-ui/react-icons": "^1.1.1",
+    "@tanstack/react-query": "^4.7.2",
+    "@tiptap/core": "2.0.0-beta.182",
+    "@tiptap/extension-bubble-menu": "2.0.0-beta.61",
+    "@tiptap/extension-collaboration": "2.0.0-beta.38",
+    "@tiptap/extension-collaboration-cursor": "2.0.0-beta.37",
+    "@tiptap/extension-link": "2.0.0-beta.196",
+    "@tiptap/extension-placeholder": "2.0.0-beta.53",
+    "@tiptap/extension-task-item": "2.0.0-beta.196",
+    "@tiptap/extension-task-list": "2.0.0-beta.196",
+    "@tiptap/react": "2.0.0-beta.114",
+    "@tiptap/starter-kit": "2.0.0-beta.191",
+    "@trpc/client": "10.0.0-proxy-beta.10",
+    "@trpc/react": "10.0.0-proxy-beta.10",
+    "@trpc/server": "10.0.0-proxy-beta.10",
+    "firebase": "^9.13.0",
+    "nanoid": "^3.3.4",
+    "prosemirror-model": "^1.18.1",
+    "prosemirror-state": "^1.4.1",
+    "prosemirror-view": "^1.27.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "6",
+    "sass": "^1.52.2",
+    "y-protocols": "^1.0.5",
+    "y-websocket": "^1.4.3",
+    "yjs": "^13.5.35",
+    "zustand": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.3.0",
+    "typescript": "^4.6.3",
+    "vite": "3.0.5"
+  }
+}

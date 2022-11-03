@@ -1,0 +1,28 @@
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    background: rgba(222, 222, 222, 0.602);
+    border: 1px solid rgba(0, 0, 0, 0.26);
+    border-radius: 12px;
+    padding: 38px;
+    gap: 46px;
+    backdrop-filter: blur(6px);
+  }
+}
+
+.aside {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

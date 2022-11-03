@@ -1,0 +1,15 @@
+.metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  margin-bottom: 20px;
+
+  a {
+    color: #585858;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

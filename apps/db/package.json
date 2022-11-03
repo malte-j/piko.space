@@ -1,0 +1,11 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "docker compose up -d"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
