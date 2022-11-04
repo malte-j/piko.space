@@ -32,7 +32,10 @@ export default function CommandMenu() {
   }, []);
 
   return (
-    <Dialog.Root open={open && !user?.isAnonymous} onOpenChange={(open: boolean) => setOpen(open)}>
+    <Dialog.Root
+      open={open && !user?.isAnonymous}
+      onOpenChange={(open: boolean) => setOpen(open)}
+    >
       <Dialog.Portal>
         <Dialog.Overlay className={s.overlay}>
           <Dialog.Content className={s.content}>
@@ -42,7 +45,16 @@ export default function CommandMenu() {
                 {files.map((file) => (
                   <li key={file.id}>
                     <span>{file.title}</span>
-                    <span>{file.lastEdited.toLocaleDateString()}</span>
+                    <span className={s.date}>
+                      {file.lastEdited.toLocaleDateString("de", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        
+                      })}
+                    </span>
                   </li>
                 ))}
               </ul>

@@ -16,11 +16,17 @@ import { getRandomColor } from "../../utils";
 import { useUser } from "../../state/UserProvider";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
+import Button from "../Button/Button";
+import Document from "@tiptap/extension-document";
 
 interface EditorProps {
   doc: Y.Doc;
   provider: WebsocketProvider;
 }
+
+const CustomDocument = Document.extend({
+  content: "heading block*",
+});
 
 export default function Editor({ doc, provider }: EditorProps) {
   const { user } = useUser();
@@ -28,12 +34,20 @@ export default function Editor({ doc, provider }: EditorProps) {
   const editor = useEditor(
     {
       extensions: [
+        CustomDocument,
         StarterKit.configure({
           // The Collaboration extension comes with its own history handling
           history: false,
+          document: false,
         }),
         Placeholder.configure({
-          placeholder: "Write something …",
+          placeholder: ({ node }) => {
+            if (node.type.name === "heading") {
+              return "Whats the title?";
+            }
+
+            return "Can you add some further context?";
+          },
         }),
         TaskList,
         TaskItem.configure({
@@ -57,7 +71,6 @@ export default function Editor({ doc, provider }: EditorProps) {
     },
     [doc, user]
   );
-
 
   return (
     <>
@@ -107,21 +120,26 @@ export default function Editor({ doc, provider }: EditorProps) {
       )}
       {/* <Button
         onClick={() => {
-          console.log( editor?.commands.undo());
-
+          console.log(editor?.commands.undo());
         }}
       >
         undo
       </Button>
       <Button
         onClick={() => {
-          console.log( editor?.commands.redo());
-
+          console.log(editor?.commands.redo());
         }}
       >
         redo
+      </Button>
+      <Button
+        onClick={() => {
+          console.log(editor?.getText().replaceAll("\n", " "));
+        }}
+      >
+        text
       </Button> */}
-      <EditorContent className="editorWrapper" editor={editor}  />
+      <EditorContent className="editorWrapper" editor={editor} />
     </>
   );
 }

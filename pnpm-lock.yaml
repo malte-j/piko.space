@@ -71,6 +71,7 @@ importers:
       '@tiptap/extension-bubble-menu': 2.0.0-beta.61
       '@tiptap/extension-collaboration': 2.0.0-beta.38
       '@tiptap/extension-collaboration-cursor': 2.0.0-beta.37
+      '@tiptap/extension-document': 2.0.0-beta.202
       '@tiptap/extension-link': 2.0.0-beta.196
       '@tiptap/extension-placeholder': 2.0.0-beta.53
       '@tiptap/extension-task-item': 2.0.0-beta.196
@@ -109,6 +110,7 @@ importers:
       '@tiptap/extension-bubble-menu': 2.0.0-beta.61_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-collaboration': 2.0.0-beta.38_7srda23ab6xqdridygaxk22n3e
       '@tiptap/extension-collaboration-cursor': 2.0.0-beta.37_bwqas6fsfctltziz27odkmqehq
+      '@tiptap/extension-document': 2.0.0-beta.202_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-link': 2.0.0-beta.196_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-placeholder': 2.0.0-beta.53_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-task-item': 2.0.0-beta.196_4djaqdmz7hvlkchssojdo7dfsi
@@ -2650,10 +2652,10 @@ packages:
       - yjs
     dev: false
 
-  /@tiptap/extension-document/2.0.0-beta.17_jdrcmhoxj44u3cq7gnenksjiqq:
-    resolution: {integrity: sha512-L6sg0FNchbtIpQkCSjMmItVGs3/vep8Fq56WRtDc1wBSGUSmtHaxQG7F2FZLnNIUMuvzVMRD81m2vYG73WkY6A==}
+  /@tiptap/extension-document/2.0.0-beta.202_jdrcmhoxj44u3cq7gnenksjiqq:
+    resolution: {integrity: sha512-UsDSe93QtnuDrUo11wYCMtp7XlTIBvL5HNhx+enLRY7B8nUhX+d78u1BzspTpCkMYKcdwDmAGfIYMqqPViPEvA==}
     peerDependencies:
-      '@tiptap/core': ^2.0.0-beta.1
+      '@tiptap/core': ^2.0.0-beta.193
     dependencies:
       '@tiptap/core': 2.0.0-beta.182
     dev: false
@@ -2833,7 +2835,7 @@ packages:
       '@tiptap/extension-bullet-list': 2.0.0-beta.29_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-code': 2.0.0-beta.28_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-code-block': 2.0.0-beta.42_jdrcmhoxj44u3cq7gnenksjiqq
-      '@tiptap/extension-document': 2.0.0-beta.17_jdrcmhoxj44u3cq7gnenksjiqq
+      '@tiptap/extension-document': 2.0.0-beta.202_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-dropcursor': 2.0.0-beta.29_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-gapcursor': 2.0.0-beta.39_jdrcmhoxj44u3cq7gnenksjiqq
       '@tiptap/extension-hard-break': 2.0.0-beta.33_jdrcmhoxj44u3cq7gnenksjiqq

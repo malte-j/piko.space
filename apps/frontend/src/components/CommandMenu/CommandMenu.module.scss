@@ -15,8 +15,8 @@
   background: #e5e5e587;
   border: 1px solid rgba(0, 0, 0, 0.26);
   border-radius: 12px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 500px);
   backdrop-filter: blur(10px);
 
   > *:not(.divider) {
@@ -52,6 +52,10 @@
       word-break: break-all;
       gap: 12px;
       justify-content: space-between;
+    }
+
+    .date {
+      color: #969696;
     }
   }
 }
