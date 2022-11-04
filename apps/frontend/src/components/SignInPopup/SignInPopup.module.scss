@@ -7,15 +7,16 @@
   justify-content: center;
   height: 100%;
   width: 100%;
+  padding: 12px;
 
   .inner {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     background: rgba(222, 222, 222, 0.602);
     border: 1px solid rgba(0, 0, 0, 0.26);
     border-radius: 12px;
     padding: 38px;
-    gap: 46px;
     backdrop-filter: blur(6px);
   }
 }
@@ -25,4 +26,19 @@
   gap: 24px;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+
+.spacer {
+  height: 48px;
+}
+
+.spacerSm {
+  height: 24px;
 }

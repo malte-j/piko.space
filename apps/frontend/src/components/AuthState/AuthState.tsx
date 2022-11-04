@@ -1,5 +1,4 @@
 import { ExitIcon } from "@radix-ui/react-icons";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useUser } from "../../state/UserProvider";
 import s from "./AuthState.module.scss";
 import { client, trpc } from "../../utils/trpc";

@@ -2,9 +2,11 @@ import s from "./CommandMenu.module.scss";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import AuthState from "../AuthState/AuthState";
+import { useUser } from "../../state/UserProvider";
 
 export default function CommandMenu() {
-  const [open, setOpen] = useState(false);  
+  const [open, setOpen] = useState(false);
+  const { user } = useUser();
   const [files, setFiles] = useState([
     {
       id: "ada9js0",
@@ -30,7 +32,7 @@ export default function CommandMenu() {
   }, []);
 
   return (
-    <Dialog.Root open={open} onOpenChange={(open: boolean) => setOpen(open)}>
+    <Dialog.Root open={open && !user?.isAnonymous} onOpenChange={(open: boolean) => setOpen(open)}>
       <Dialog.Portal>
         <Dialog.Overlay className={s.overlay}>
           <Dialog.Content className={s.content}>

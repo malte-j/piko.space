@@ -23,58 +23,11 @@ body {
   background: #e5e5e5;
 }
 
-// .app {
-//   display: grid;
-//   grid-template-rows: min-content 1fr;
-//   height: 100%;
-//   padding: 12px;
-//   gap: 12px;
-//   justify-items: center;
-//   overflow-x: hidden;
-// }
+// reset
 
-// .room {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 12px;
-//   width: 100%;
-
-//   span {
-//     user-select: none;
-//   }
-
-//   // .hamburgerButton {
-//   //   cursor: pointer;
-//   //   display: none;
-//   // }
-
-//   // @media screen and (max-width: 650px) {
-//   //   justify-content: space-between;
-//   //   .hamburgerButton {
-//   //     display: block;
-//   //   }
-//   // }
-// }
-
-// p {
-//   margin: 0;
-// }
-
-// input {
-//   border: 1px solid black;
-//   border-radius: 5px;
-//   padding: 4px 8px;
-//   outline: none;
-//   flex: 1 1 12ch;
-//   width: 100%;
-// }
-
-// button {
-//   border: none;
-//   cursor: pointer;
-
-//   svg {
-//     display: block;
-//   }
-// }
+button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

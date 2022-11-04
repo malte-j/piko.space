@@ -4,6 +4,7 @@
   align-items: center;
   padding: 12px 0;
   margin-bottom: 20px;
+  gap: 15px;
 
   a {
     color: #585858;
@@ -11,5 +12,35 @@
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+}
+
+.onlineUsers {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+
+  li {
+    list-style-type: none;
+  }
+}
+.userPill {
+  font-size: 11px;
+  background: var(--color);
+  --color-text: hsl(from var(--color) h s calc(l - 5%));
+  color: var(--color-text);
+  border-radius: 1000px;
+  padding: 2px 4px;
+}
+
+.circle {
+  height: 15px;
+  width: 15px;
+  border-radius: 100px;
+  background: rgb(188, 0, 0);
+
+
+  &[data-online="true"] {
+    background: rgba(4, 188, 0, 1);
   }
 }

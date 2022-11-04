@@ -8,9 +8,12 @@ import s from "./file.module.scss";
 import CopyToClipboard from "../../components/CopyToClipboard/CopyToClipboard";
 
 export default function File() {
-  let [online, setOnline] = useState(false);
+  const [online, setOnline] = useState(false);
   const [ydoc, setYDoc] = useState<Y.Doc>();
   const [provider, setProvider] = useState<WebsocketProvider>();
+  const [onlineUsers, setOnlineUsers] = useState<
+    { color: string; name: string }[]
+  >([]);
 
   const { file: filename } = useParams();
 
@@ -30,12 +33,13 @@ export default function File() {
       setOnline(event.status == "connected");
     });
 
-    wsProvider.awareness.on('change', (changes: any) => {
-      // Whenever somebody updates their awareness information,
-      // we log all awareness information from all users.
-      // console.log(Array.from(wsProvider.awareness.getStates().values()))
-      //  values is an array, array[n]-user.name gives name, .color the color, e.g. "hsl(0,0,0)"
-    })
+    wsProvider.awareness.on("change", (changes: any) => {
+      setOnlineUsers(
+        Array.from(wsProvider.awareness.getStates().values()).map(
+          (state: any) => state.user
+        )
+      );
+    });
 
     return () => {
       wsProvider.disconnect();
@@ -45,7 +49,22 @@ export default function File() {
   return (
     <>
       <div className={s.metadata}>
-        <span>{online ? "🟢" : "🔴"}</span>
+        <span className={s.circle} data-online={online}></span>
+        <ul className={s.onlineUsers}>
+          {onlineUsers.map((user) => (
+            <li
+              className={s.userPill}
+              data-color={user.color}
+              key={user.name + user.color}
+              style={{
+                // @ts-ignore
+                "--color": user.color,
+              }}
+            >
+              {user.name}
+            </li>
+          ))}
+        </ul>
         <CopyToClipboard
           title={filename || ""}
           copyText={"https://" + location.hostname + "/edit/" + filename}

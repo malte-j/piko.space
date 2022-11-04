@@ -24,6 +24,7 @@ interface EditorProps {
 
 export default function Editor({ doc, provider }: EditorProps) {
   const { user } = useUser();
+
   const editor = useEditor(
     {
       extensions: [
@@ -54,7 +55,7 @@ export default function Editor({ doc, provider }: EditorProps) {
         }),
       ],
     },
-    [doc]
+    [doc, user]
   );
 
   return (

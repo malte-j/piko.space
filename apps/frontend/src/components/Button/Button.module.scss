@@ -11,6 +11,24 @@
   gap: 12px;
   cursor: pointer;
 
+  &[data-variant="clear"] {
+    background: none;
+    padding: 4px 0px;
+    &:hover {
+      background: none;
+      color: rgb(61, 61, 61);
+    }
+  }
+
+  &[disabled] {
+    cursor:  default;
+    color: rgb(150, 150, 150);
+
+    &:hover {
+      background: #fff;
+    }
+  }
+
   &:hover {
     background: #f5f5f5;
   }

@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { trpc } from "../utils/trpc";
 import { getAuth } from "firebase/auth";
-import { GoogleAuthProvider } from "firebase/auth";
 
 interface User {
   name: string;
@@ -43,7 +42,10 @@ function useUserData(): UserData {
           name: username,
           isAnonymous: false,
         }
-      : null;
+      : {
+          name: "Anonymous",
+          isAnonymous: true,
+        };
   });
 
   const auth = getAuth();

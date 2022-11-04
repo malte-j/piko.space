@@ -1,9 +1,16 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactPropTypes } from "react";
 import s from "./Button.module.scss";
 
-export default function Button(props: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
+export default function Button(
+  props: DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >  & {
+    variant?: "regular" | "clear";
+  }
+) {
   return (
-    <button className={s.button} {...props}>
+    <button className={s.button} {...props} data-variant={props.variant}>
       {props.children}
     </button>
   );
