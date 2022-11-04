@@ -32,6 +32,16 @@ export default function Editor({ doc, provider }: EditorProps) {
           // The Collaboration extension comes with its own history handling
           history: false,
         }),
+        Placeholder.configure({
+          placeholder: "Write something …",
+        }),
+        TaskList,
+        TaskItem.configure({
+          nested: true,
+        }),
+        Link.configure({
+          openOnClick: false,
+        }),
         // Register the document with Tiptap
         Collaboration.configure({
           document: doc,
@@ -43,20 +53,11 @@ export default function Editor({ doc, provider }: EditorProps) {
             color: getRandomColor(),
           },
         }),
-        Placeholder.configure({
-          placeholder: "Write something …",
-        }),
-        TaskList,
-        TaskItem.configure({
-          nested: true,
-        }),
-        Link.configure({
-          openOnClick: false,
-        }),
       ],
     },
     [doc, user]
   );
+
 
   return (
     <>
@@ -104,7 +105,23 @@ export default function Editor({ doc, provider }: EditorProps) {
           </button>
         </BubbleMenu>
       )}
-      <EditorContent className="editorWrapper" editor={editor} />
+      {/* <Button
+        onClick={() => {
+          console.log( editor?.commands.undo());
+
+        }}
+      >
+        undo
+      </Button>
+      <Button
+        onClick={() => {
+          console.log( editor?.commands.redo());
+
+        }}
+      >
+        redo
+      </Button> */}
+      <EditorContent className="editorWrapper" editor={editor}  />
     </>
   );
 }

@@ -5,6 +5,7 @@ import * as promise from "lib0/promise";
 import * as error from "lib0/error";
 import * as logging from "lib0/logging";
 import Redis, { Cluster, ClusterNode, RedisOptions } from "ioredis";
+import CONFIG from "../config";
 
 const logger = logging.createModuleLogger("y-redis");
 
@@ -120,13 +121,22 @@ const createRedisInstance = (
   redisOpts: string | null,
   redisClusterOpts: ClusterNode[] | null
 ) => {
-  if (redisClusterOpts) {
-    return new Redis.Cluster(redisClusterOpts);
-  } else if (redisOpts) {
-    return new Redis(redisOpts);
-  } else {
-    return new Redis({});
-  }
+  return new Redis({
+    family: 6,
+    host: process.env.REDIS_HOST,
+    password: process.env.REDIS_PW,
+    // username: "default",
+    port: 6379,
+  });
+  // if (redisClusterOpts) {
+  //   return new Redis.Cluster(redisClusterOpts);
+  // } else if (redisOpts) {
+  //   return new Redis(redisOpts);
+  // } else {
+  //   return new Redis( {
+  //     family: 6
+  //   });
+  // }
 };
 
 export class RedisPersistence extends Observable<string> {

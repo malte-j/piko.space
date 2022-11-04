@@ -39,7 +39,7 @@ if (CONFIG.redisUrl) {
       const persistedYdoc = await redisPersistence.bindState(docName, ydoc);
 
       // const persistedYdoc = await ldb.getYDoc(docName);
-      const newUpdates = Y.encodeStateAsUpdate(ydoc);
+      // const newUpdates = Y.encodeStateAsUpdate(ydoc);
       // ldb.storeUpdate(docName, newUpdates);
 
       // TODO: check if this is needed

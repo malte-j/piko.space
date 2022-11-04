@@ -5,7 +5,7 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import * as express from "express";
 import * as cors from "cors";
 import CONFIG from "./config";
-import path from "path";
+import * as path from "path";
 
 interface User {
   id: string;
@@ -97,6 +97,6 @@ console.log("dirname: " + __dirname);
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
-app.get("*", function (request, response) {
-  response.sendFile(path.resolve(__dirname, "/dist/index.html"));
+app.get("/*", function (request, response) {
+  response.sendFile(path.resolve(__dirname, "dist/index.html"));
 });

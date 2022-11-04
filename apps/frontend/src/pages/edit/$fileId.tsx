@@ -52,7 +52,12 @@ export default function File() {
   return (
     <>
       <div className={s.metadata}>
-        <span className={s.circle} data-online={online}></span>
+        {online ? (
+          <img src="/icons/connectionStatusOnline.svg" />
+        ) : (
+          <img src="/icons/connectionStatusOffline.svg" />
+        )}
+        {/* <span className={s.circle} data-online={online}></span> */}
         <ul className={s.onlineUsers}>
           {onlineUsers.map((user) => (
             <li
