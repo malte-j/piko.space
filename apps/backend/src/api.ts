@@ -8,8 +8,7 @@ import * as jwt from "jsonwebtoken";
 import { randomUUID } from "crypto";
 import { OAuth2Client } from "google-auth-library";
 import CONFIG from "./config";
-
-const GoogleOAuthCLient = new OAuth2Client(CONFIG.GOOGLE_CLIENT_ID);
+import path from "path";
 
 interface User {
   id: string;
@@ -34,31 +33,8 @@ const appRouter = t.router({
       return user;
     }),
   login: t.procedure.input(z.string()).query(async (req) => {
-    // Verify and decode the Google JWT
-    const { input: googleJwtToken } = req;
-    const ticket = await GoogleOAuthCLient.verifyIdToken({
-      idToken: googleJwtToken,
-      audience: CONFIG.GOOGLE_CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
 
-    if (!payload) throw new Error("Invalid JWT");
-    if (!payload.email) throw new Error("No email in JWT");
-
-    const userObject = {
-      userId: payload["sub"],
-      email: payload.email,
-      profilePicture: payload.picture,
-      name: payload.name || payload.email,
-    };
-
-    return jwt.sign(
-      {
-        data: userObject,
-      },
-      CONFIG.JWT_SECRET,
-      { expiresIn: "12h" }
-    );
+    throw new Error("Not implemented");
   }),
   userCreate: t.procedure
     .input(z.object({ name: z.string() }))
@@ -117,3 +93,14 @@ app.use(
     createContext,
   })
 );
+
+// serve static assets normally
+app.use(express.static(__dirname + "/dist"));
+console.log("dirname: " + __dirname);
+
+
+// handle every other route with index.html, which will contain
+// a script tag to your application's JavaScript file(s).
+app.get("*", function (request, response) {
+  response.sendFile(path.resolve(__dirname, "/dist/index.html"));
+});

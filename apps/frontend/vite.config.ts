@@ -8,9 +8,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      injectRegister: "script",
-      devOptions: {
-        enabled: true,
+      injectRegister: "auto",
+      strategies: "generateSW",
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,png,jpg,gif,svg,woff2}"],
       },
       manifest: {
         name: "piko.space",

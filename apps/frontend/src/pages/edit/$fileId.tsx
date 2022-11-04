@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Link2Icon, RulerHorizontalIcon } from "@radix-ui/react-icons";
 import s from "./file.module.scss";
 import CopyToClipboard from "../../components/CopyToClipboard/CopyToClipboard";
+import { IndexeddbPersistence } from "y-indexeddb";
 
 export default function File() {
   const [online, setOnline] = useState(false);
@@ -20,6 +21,8 @@ export default function File() {
   useEffect(() => {
     const doc = new Y.Doc();
     setYDoc(doc);
+
+    new IndexeddbPersistence("ydoc_" + filename!, doc);
 
     const wsProvider = new WebsocketProvider(
       `ws://${location.hostname}:5510/ws`,
