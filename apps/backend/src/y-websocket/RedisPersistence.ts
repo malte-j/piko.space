@@ -117,7 +117,7 @@ export class PersistenceDoc {
 }
 
 const createRedisInstance = (
-  redisOpts: RedisOptions | null,
+  redisOpts: string | null,
   redisClusterOpts: ClusterNode[] | null
 ) => {
   if (redisClusterOpts) {
@@ -134,7 +134,13 @@ export class RedisPersistence extends Observable<string> {
   sub: Redis | Cluster;
   docs: Map<string, PersistenceDoc>;
 
-  constructor({ redisOpts = null, redisClusterOpts = null } = {}) {
+  constructor({
+    redisOpts,
+    redisClusterOpts,
+  }: {
+    redisOpts: null | string;
+    redisClusterOpts: ClusterNode[] | null;
+  }) {
     super();
     this.redis = createRedisInstance(redisOpts, redisClusterOpts);
     this.sub = createRedisInstance(redisOpts, redisClusterOpts);

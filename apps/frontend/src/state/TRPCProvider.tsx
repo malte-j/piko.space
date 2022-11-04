@@ -13,7 +13,7 @@ export function TRPCProvider({
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: "http://localhost:5510/trpc",
+          url: import.meta.env.VITE_BACKEND_URL + "/trpc",
           // optional
           headers() {
             return {

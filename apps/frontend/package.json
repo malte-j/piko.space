@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "vite --port=5500 --host=0.0.0.0",
-    "build": "tsc && vite build",
+    "start": "DEMO=HELLO vite --port=5500 --host=0.0.0.0",
+    "build": "tsc && WS_BACKEND_URL=\"wss://piko.space/ws\"  vite build",
     "preview": "vite preview"
   },
   "dependencies": {

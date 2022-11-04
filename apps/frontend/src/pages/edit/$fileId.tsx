@@ -25,7 +25,7 @@ export default function File() {
     new IndexeddbPersistence("ydoc_" + filename!, doc);
 
     const wsProvider = new WebsocketProvider(
-      import.meta.env.WS_BACKEND_URL,
+      import.meta.env.VITE_WS_BACKEND_URL,
       filename!,
       doc
     );

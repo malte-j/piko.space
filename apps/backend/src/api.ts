@@ -4,9 +4,6 @@ import { z } from "zod";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import * as express from "express";
 import * as cors from "cors";
-import * as jwt from "jsonwebtoken";
-import { randomUUID } from "crypto";
-import { OAuth2Client } from "google-auth-library";
 import CONFIG from "./config";
 import path from "path";
 
@@ -61,7 +58,6 @@ export async function createContext({
       const token = req.headers.authorization.split(" ")[1];
 
       try {
-        return jwt.verify(token, CONFIG.JWT_SECRET);
       } catch {
         return null;
       }

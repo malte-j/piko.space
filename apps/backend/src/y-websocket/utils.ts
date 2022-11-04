@@ -24,12 +24,15 @@ let persistence: {
 } | null = null;
 
 if (CONFIG.redisUrl) {
+  logger(CONFIG.redisUrl);
   // console.info('Persisting documents to "' + persistenceDir + '"');
   // @ts-ignore
   // const LeveldbPersistence = require("y-leveldb").LeveldbPersistence;
   // const ldb = new LeveldbPersistence(persistenceDir);
 
-  const redisPersistence = new RedisPersistence();
+  const redisPersistence = new RedisPersistence({
+    redisOpts: CONFIG.redisUrl,
+  });
   persistence = {
     provider: redisPersistence,
     bindState: async (docName, ydoc) => {
