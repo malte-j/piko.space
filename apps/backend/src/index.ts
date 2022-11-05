@@ -6,7 +6,11 @@ import CONFIG from "./config";
 import { app } from "./api";
 import * as dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({
+  path: ".env.local",
+});
+
+console.log("cred", process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
 const wss = new WebSocket.Server({ noServer: true });
 const host = CONFIG.host;
@@ -17,6 +21,8 @@ const server = http.createServer(app);
 wss.on("connection", (conn, req) => setupWSConnection(conn, req));
 
 server.on("upgrade", (request, socket, head) => {
+  // console.log(request.headers);
+
   // You may check auth of request here..
   // See https://github.com/websockets/ws#client-authentication
   wss.handleUpgrade(request, socket, head, (ws) => {

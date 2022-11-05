@@ -10,6 +10,7 @@ import * as http from "http";
 import * as WebSocket from "ws";
 import { RedisPersistence } from "./RedisPersistence";
 import CONFIG from "../config";
+import { createRedisConnection, redis } from "../redis";
 
 const logger = logging.createModuleLogger("y-server");
 
@@ -23,35 +24,29 @@ let persistence: {
   provider: RedisPersistence;
 } | null = null;
 
-if (CONFIG.redisUrl) {
-  logger(CONFIG.redisUrl);
-  // console.info('Persisting documents to "' + persistenceDir + '"');
-  // @ts-ignore
-  // const LeveldbPersistence = require("y-leveldb").LeveldbPersistence;
-  // const ldb = new LeveldbPersistence(persistenceDir);
+const redisPersistence = new RedisPersistence({
+  sub: createRedisConnection(),
+  redis: redis,
+});
 
-  const redisPersistence = new RedisPersistence({
-    redisOpts: CONFIG.redisUrl,
-  });
-  persistence = {
-    provider: redisPersistence,
-    bindState: async (docName, ydoc) => {
-      const persistedYdoc = await redisPersistence.bindState(docName, ydoc);
+persistence = {
+  provider: redisPersistence,
+  bindState: async (docName, ydoc) => {
+    const persistedYdoc = await redisPersistence.bindState(docName, ydoc);
 
-      // const persistedYdoc = await ldb.getYDoc(docName);
-      // const newUpdates = Y.encodeStateAsUpdate(ydoc);
-      // ldb.storeUpdate(docName, newUpdates);
+    // const persistedYdoc = await ldb.getYDoc(docName);
+    // const newUpdates = Y.encodeStateAsUpdate(ydoc);
+    // ldb.storeUpdate(docName, newUpdates);
 
-      // TODO: check if this is needed
-      Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(persistedYdoc.doc));
+    // TODO: check if this is needed
+    Y.applyUpdate(ydoc, Y.encodeStateAsUpdate(persistedYdoc.doc));
 
-      // ydoc.on("update", (update) => {
-      //   ldb.storeUpdate(docName, update);
-      // });
-    },
-    writeState: async (docName, ydoc) => {},
-  };
-}
+    // ydoc.on("update", (update) => {
+    //   ldb.storeUpdate(docName, update);
+    // });
+  },
+  writeState: async (docName, ydoc) => {},
+};
 
 // let rPersistence = new RedisPersistence();
 

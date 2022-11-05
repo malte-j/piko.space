@@ -6,43 +6,90 @@ import * as express from "express";
 import * as cors from "cors";
 import CONFIG from "./config";
 import * as path from "path";
+import { applicationDefault, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
+import { redis } from "./redis";
+
+initializeApp({
+  credential: applicationDefault(),
+});
 
 interface User {
   id: string;
   name: string;
 }
 
-const userList: User[] = [
-  {
-    id: "1",
-    name: "KATT",
-  },
-];
-
 const t = initTRPC.context<Context>().create();
 const appRouter = t.router({
-  userById: t.procedure
-    .input(z.string()) // user id
-    .query((req) => {
-      const { input } = req;
-      const user = userList.find((u) => u.id === input);
+  userRecentFiles: t.procedure.query(async (req) => {
+    if (!req.ctx.user) return;
+    const filesIds = await redis.zrange(
+      "user:" + req.ctx.user.uid + ":recent_files",
+      0,
+      -1,
+      "WITHSCORES"
+    );
+    const fileIds: [string, number][] = [];
+    for (let i = 0; i < filesIds.length; i += 2) {
+      fileIds.push([filesIds[i], parseInt(filesIds[i + 1])]);
+    }
+    const filenames = await redis.hmget(
+      "filenames",
+      ...fileIds.map((f) => f[0])
+    );
 
-      return user;
-    }),
-  login: t.procedure.input(z.string()).query(async (req) => {
+    const files: {
+      id: string;
+      title: string;
+      lastEdited: number;
+    }[] = [];
 
-    throw new Error("Not implemented");
+    for (let i = 0; i < filenames.length; i++) {
+      files.push({
+        id: fileIds[i][0],
+        title: filenames[i] || "Untitled",
+        lastEdited: fileIds[i][1],
+      });
+    }
+
+    return files;
   }),
-  userCreate: t.procedure
-    .input(z.object({ name: z.string() }))
-    .mutation((req) => {
-      const id = `${Math.random()}`;
-      const user: User = {
-        id,
-        name: req.input.name,
-      };
-      userList.push(user);
-      return user;
+  setFileTitle: t.procedure
+    .input(z.object({ fileId: z.string(), title: z.string() }))
+    .mutation(async (req) => {
+      if (!req.ctx.user) return;
+
+      await redis.hset("filenames", req.input.fileId, req.input.title);
+    }),
+  getFileTitle: t.procedure
+    .input(z.object({ fileId: z.string() }))
+    .query(async (req) => {
+      console.log("getFileTitle", req.input.fileId);
+      
+      if (!req.ctx.user) return;
+
+      let name = await redis.hget("filenames", req.input.fileId) || "Untitled";
+
+      console.log("fname", name);
+      
+      return name;
+
+    }),
+  registerFileOpen: t.procedure
+    .input(
+      z.object({
+        fileId: z.string(),
+      })
+    )
+    .mutation(async (req) => {
+      if (!req.ctx.user) return;
+      console.log("registerFileOpen", req.input);
+
+      redis.zadd(
+        "user:" + req.ctx.user.uid + ":recent_files",
+        Date.now(),
+        req.input.fileId
+      );
     }),
 });
 
@@ -50,19 +97,20 @@ export async function createContext({
   req,
   res,
 }: trpcExpress.CreateExpressContextOptions) {
-  // Create your context based on the request object
-  // Will be available as `ctx` in all your resolvers
-  // This is just an example of something you'd might want to do in your ctx fn
   async function getUserFromHeader() {
-    if (req.headers.authorization) {
-      const token = req.headers.authorization.split(" ")[1];
+    if (!req.headers.authorization) return;
 
-      try {
-      } catch {
-        return null;
-      }
+    try {
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = await getAuth().verifyIdToken(token);
+      return decodedToken;
+    } catch (e) {
+      console.log(e);
+
+      return;
     }
   }
+
   const user = await getUserFromHeader();
 
   return {
@@ -92,8 +140,7 @@ app.use(
 
 // serve static assets normally
 app.use(express.static(__dirname + "/dist"));
-console.log("dirname: " + __dirname);
-
+// console.log("dirname: " + __dirname);
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).

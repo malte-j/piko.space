@@ -1,24 +1,19 @@
 import s from "./CommandMenu.module.scss";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import AuthState from "../AuthState/AuthState";
 import { useUser } from "../../state/UserProvider";
+import { useQueryClient } from "@tanstack/react-query";
+import { client, trpc } from "../../utils/trpc";
+import { auth } from "../../utils/auth";
 
 export default function CommandMenu() {
   const [open, setOpen] = useState(false);
   const { user } = useUser();
-  const [files, setFiles] = useState([
-    {
-      id: "ada9js0",
-      title: "test",
-      lastEdited: new Date("2021-08-01T00:00:00.000Z"),
-    },
-    {
-      id: "ad21f",
-      title: "test2",
-      lastEdited: new Date("2021-08-01T00:00:00.000Z"),
-    },
-  ]);
+
+  const filesForUser = trpc.userRecentFiles.useQuery(undefined, {
+    enabled: auth.currentUser != null,
+  });
 
   useEffect(() => {
     // open on command k
@@ -42,17 +37,16 @@ export default function CommandMenu() {
             <input placeholder="suche..." className={s.searchBar} />
             <div className={s.files}>
               <ul>
-                {files.map((file) => (
+                {filesForUser.data?.map((file) => (
                   <li key={file.id}>
                     <span>{file.title}</span>
                     <span className={s.date}>
-                      {file.lastEdited.toLocaleDateString("de", {
+                      {new Date(file.lastEdited).toLocaleDateString("de", {
                         day: "2-digit",
                         month: "2-digit",
                         year: "2-digit",
                         hour: "2-digit",
                         minute: "2-digit",
-                        
                       })}
                     </span>
                   </li>

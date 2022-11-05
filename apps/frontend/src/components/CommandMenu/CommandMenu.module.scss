@@ -18,9 +18,19 @@
   display: grid;
   grid-template-columns: minmax(0, 500px);
   backdrop-filter: blur(10px);
+  animation: scaleup 0.1s ease-out;
 
   > *:not(.divider) {
     margin: 14px 18px;
+  }
+}
+
+@keyframes scaleup {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 

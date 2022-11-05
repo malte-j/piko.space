@@ -10,6 +10,7 @@
   word-break: break-word;
   hyphens: auto;
   font-size: 14px;
+  min-height: 50vh;
 
   word-wrap: break-word;
 
@@ -212,5 +213,15 @@
     background: #000;
     // arrow down
     clip-path: polygon(50% 80%, 0 0, 100% 0);
+  }
+}
+
+[data-placeholder] {
+  &::before {
+    color: #959ca4;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
   }
 }

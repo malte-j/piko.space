@@ -16,17 +16,11 @@ import { getRandomColor } from "../../utils";
 import { useUser } from "../../state/UserProvider";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
-import Button from "../Button/Button";
-import Document from "@tiptap/extension-document";
 
 interface EditorProps {
   doc: Y.Doc;
   provider: WebsocketProvider;
 }
-
-const CustomDocument = Document.extend({
-  content: "heading block*",
-});
 
 export default function Editor({ doc, provider }: EditorProps) {
   const { user } = useUser();
@@ -34,20 +28,12 @@ export default function Editor({ doc, provider }: EditorProps) {
   const editor = useEditor(
     {
       extensions: [
-        CustomDocument,
         StarterKit.configure({
           // The Collaboration extension comes with its own history handling
           history: false,
-          document: false,
         }),
         Placeholder.configure({
-          placeholder: ({ node }) => {
-            if (node.type.name === "heading") {
-              return "Whats the title?";
-            }
-
-            return "Can you add some further context?";
-          },
+          placeholder: "Write something...",
         }),
         TaskList,
         TaskItem.configure({

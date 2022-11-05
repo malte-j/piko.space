@@ -23,10 +23,6 @@ export function UserProvider({
 }) {
   const value = useUserData();
 
-  const user = trpc.userById.useQuery("1");
-
-  useEffect(() => console.log(user.data), [user]);
-
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 

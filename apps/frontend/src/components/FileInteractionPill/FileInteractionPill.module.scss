@@ -1,0 +1,54 @@
+.copyToClipboard {
+  text-decoration: none;
+  display: grid;
+  grid-template-columns: min-content auto;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  color: #585858;
+
+  span {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  > input,
+  span {
+    font-size: 11px;
+    grid-area: 1 / 1 / 2 / 2;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .linkIcon {
+    cursor: pointer;
+    
+  }
+
+  .linkIcon,
+  input {
+    &:hover {
+      color: black;
+    }
+  }
+
+  input {
+    border: none;
+    outline: none;
+    color: inherit;
+    width: 100%;
+  }
+
+  &:hover::before {
+    content: "";
+    z-index: 1;
+    position: absolute;
+    top: -15%;
+    left: -9%;
+    width: 115%;
+    height: 130%;
+    border-radius: 12px;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.081);
+  }
+}

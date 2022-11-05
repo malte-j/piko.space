@@ -117,43 +117,15 @@ export class PersistenceDoc {
   }
 }
 
-const createRedisInstance = (
-  redisOpts: string | null,
-  redisClusterOpts: ClusterNode[] | null
-) => {
-  return new Redis({
-    family: 6,
-    host: process.env.REDIS_HOST,
-    password: process.env.REDIS_PW,
-    // username: "default",
-    port: 6379,
-  });
-  // if (redisClusterOpts) {
-  //   return new Redis.Cluster(redisClusterOpts);
-  // } else if (redisOpts) {
-  //   return new Redis(redisOpts);
-  // } else {
-  //   return new Redis( {
-  //     family: 6
-  //   });
-  // }
-};
-
 export class RedisPersistence extends Observable<string> {
   redis: Redis | Cluster;
   sub: Redis | Cluster;
   docs: Map<string, PersistenceDoc>;
 
-  constructor({
-    redisOpts,
-    redisClusterOpts,
-  }: {
-    redisOpts: null | string;
-    redisClusterOpts: ClusterNode[] | null;
-  }) {
+  constructor({ redis, sub }: { redis: Redis; sub: Redis }) {
     super();
-    this.redis = createRedisInstance(redisOpts, redisClusterOpts);
-    this.sub = createRedisInstance(redisOpts, redisClusterOpts);
+    this.redis = redis;
+    this.sub = sub;
 
     this.docs = new Map();
     this.sub.on("message", (channel, sclock) => {

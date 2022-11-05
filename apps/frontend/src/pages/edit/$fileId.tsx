@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import * as Y from "yjs";
-import { WebsocketProvider } from "y-websocket";
-import Editor from "../../components/Editor/Editor";
 import { useParams } from "react-router-dom";
-import { Link2Icon, RulerHorizontalIcon } from "@radix-ui/react-icons";
-import s from "./file.module.scss";
-import CopyToClipboard from "../../components/CopyToClipboard/CopyToClipboard";
 import { IndexeddbPersistence } from "y-indexeddb";
+import { WebsocketProvider } from "y-websocket";
+import * as Y from "yjs";
+import Editor from "../../components/Editor/Editor";
+import FileInteractionPill from "../../components/FileInteractionPill/FileInteractionPill";
+import { auth } from "../../utils/auth";
+import { client, trpc } from "../../utils/trpc";
+import s from "./file.module.scss";
 
 export default function File() {
   const [online, setOnline] = useState(false);
@@ -16,17 +17,28 @@ export default function File() {
     { color: string; name: string }[]
   >([]);
 
-  const { file: filename } = useParams();
+  const { file: fileId } = useParams();
+  const [fileTitle, setFileTitle] = useState<string>();
+
+  useEffect(() => {
+    let sub = auth.onAuthStateChanged(async (user) => {
+      const u = await user?.getIdToken();
+      client.registerFileOpen.mutate({ fileId: fileId! });
+      const title = await client.getFileTitle.query({ fileId: fileId! });
+      setFileTitle(title);
+    });
+    return sub;
+  }, []);
 
   useEffect(() => {
     const doc = new Y.Doc();
     setYDoc(doc);
 
-    new IndexeddbPersistence("ydoc_" + filename!, doc);
+    new IndexeddbPersistence("ydoc_" + fileId!, doc);
 
     const wsProvider = new WebsocketProvider(
       import.meta.env.VITE_WS_BACKEND_URL,
-      filename!,
+      fileId!,
       doc
     );
 
@@ -47,7 +59,7 @@ export default function File() {
     return () => {
       wsProvider.disconnect();
     };
-  }, [filename]);
+  }, [fileId]);
 
   return (
     <>
@@ -73,9 +85,10 @@ export default function File() {
             </li>
           ))}
         </ul>
-        <CopyToClipboard
-          title={filename || ""}
-          copyText={"https://" + location.hostname + "/edit/" + filename}
+        <FileInteractionPill
+          title={fileTitle || ""}
+          id={fileId!}
+          copyText={window.location.href}
         />
       </div>
       {ydoc && provider && <Editor provider={provider} doc={ydoc} />}

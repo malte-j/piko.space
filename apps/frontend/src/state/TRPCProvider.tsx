@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { trpc } from "../utils/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
+import { auth } from "../utils/auth";
 
 export function TRPCProvider({
   children,
@@ -14,10 +15,11 @@ export function TRPCProvider({
       links: [
         httpBatchLink({
           url: import.meta.env.VITE_BACKEND_URL + "/trpc",
-          // optional
-          headers() {
+          async headers() {
+            const token = await auth.currentUser!.getIdToken();
+
             return {
-              authorization: "$token",
+              authorization: "Bearer " + token,
             };
           },
         }),
