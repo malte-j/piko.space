@@ -1,20 +1,34 @@
-import s from "./CommandMenu.module.scss";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import AuthState from "../AuthState/AuthState";
-import { useUser } from "../../state/UserProvider";
-import { useQueryClient } from "@tanstack/react-query";
-import { client, trpc } from "../../utils/trpc";
-import { auth } from "../../utils/auth";
+import Fuse from "fuse.js";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useCommandMenuStore } from "../../state/CommandMenuStore";
+import { useUser } from "../../state/UserProvider";
+import { auth } from "../../utils/auth";
+import { trpc } from "../../utils/trpc";
+import AuthState from "../AuthState/AuthState";
+import s from "./CommandMenu.module.scss";
 
 export default function CommandMenu() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen, toggleOpen] = useCommandMenuStore((state) => [state.navOpen, state.setOpen, state.toggle]);
   const { user } = useUser();
+  const [search, setSearch] = useState("");
 
   const filesForUser = trpc.userRecentFiles.useQuery(undefined, {
     enabled: auth.currentUser != null,
   });
+
+  const fuse = useMemo(() => {
+    return new Fuse(filesForUser.data || [], {
+      keys: ["title"],
+      // includeScore: true,
+    });
+  }, [filesForUser]);
+
+  const searchResult = useMemo(() => {
+    if (search === "") return filesForUser.data || [];
+    return fuse.search(search).map((res) => res.item);
+  }, [fuse, search]);
 
   useEffect(() => {
     // open on command k
@@ -35,10 +49,15 @@ export default function CommandMenu() {
       <Dialog.Portal>
         <Dialog.Overlay className={s.overlay}>
           <Dialog.Content className={s.content}>
-            <input placeholder="suche..." className={s.searchBar} />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="suche..."
+              className={s.searchBar}
+            />
             <div className={s.files}>
               <ul>
-                {filesForUser.data?.map((file) => (
+                {searchResult.map((file) => (
                   <li key={file.id}>
                     <Link to={"/edit/" + file.id}>{file.title}</Link>
                     <span className={s.date}>

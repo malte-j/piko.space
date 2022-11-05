@@ -34,11 +34,14 @@
   align-items: center;
   justify-content: center;
   background: #d9d9d9;
-  border-radius: 1000px;
   font-weight: 600;
   color: #727272;
   font-size: 8px;
+  user-select: none;
+}
+
+.avatar, .icon {
   height: 15px;
   width: 15px;
-  user-select: none;
+  border-radius: 100px;
 }

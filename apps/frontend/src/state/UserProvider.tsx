@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { trpc } from "../utils/trpc";
-import { getAuth } from "firebase/auth";
+import { getAuth, User as FirebaseUser } from "firebase/auth";
 
 interface User {
   name: string;
@@ -9,6 +9,7 @@ interface User {
 
 interface UserData {
   user: User | null;
+  firebaseUser: FirebaseUser | null;
   login: (username: string) => void;
   signOut: () => void;
 }
@@ -46,6 +47,14 @@ function useUserData(): UserData {
 
   const auth = getAuth();
 
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
+  
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setFirebaseUser(user);
+    });
+  });
+
   function login(username: string) {
     if (localStorage) localStorage.setItem("username", username);
     setUser({
@@ -63,5 +72,5 @@ function useUserData(): UserData {
     });
   }
 
-  return { user, login, signOut };
+  return { user, login, signOut, firebaseUser };
 }

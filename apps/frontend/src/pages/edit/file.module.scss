@@ -44,3 +44,11 @@
     background: rgba(4, 188, 0, 1);
   }
 }
+
+.menuIcon {
+  cursor: pointer;
+
+  @media (pointer: fine) {
+    display: none;
+  }
+}

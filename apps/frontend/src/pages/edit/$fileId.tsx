@@ -1,3 +1,4 @@
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { IndexeddbPersistence } from "y-indexeddb";
@@ -5,6 +6,7 @@ import { WebsocketProvider } from "y-websocket";
 import * as Y from "yjs";
 import Editor from "../../components/Editor/Editor";
 import FileInteractionPill from "../../components/FileInteractionPill/FileInteractionPill";
+import { useCommandMenuStore } from "../../state/CommandMenuStore";
 import { auth } from "../../utils/auth";
 import { client } from "../../utils/trpc";
 import s from "./file.module.scss";
@@ -16,6 +18,7 @@ export default function File() {
   const [onlineUsers, setOnlineUsers] = useState<
     { color: string; name: string }[]
   >([]);
+  const [setOpen] = useCommandMenuStore((state) => [state.setOpen]);
 
   const { file: fileId } = useParams();
   const [fileTitle, setFileTitle] = useState<string>();
@@ -85,6 +88,11 @@ export default function File() {
             </li>
           ))}
         </ul>
+
+        <HamburgerMenuIcon 
+          className={s.menuIcon}
+        onClick={() => setOpen(true)} />
+
         <FileInteractionPill
           title={fileTitle || ""}
           id={fileId!}

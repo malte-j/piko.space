@@ -29,15 +29,15 @@ const t = initTRPC.context<Context>().create();
 const appRouter = t.router({
   userRecentFiles: t.procedure.query(async (req) => {
     if (!req.ctx.user) return;
-    const filesIds = await redis.zrevrange(
+    const rawFileIds = await redis.zrevrange(
       "user:" + req.ctx.user.uid + ":recent_files",
       0,
       -1,
       "WITHSCORES"
     );
     const fileIds: [string, number][] = [];
-    for (let i = 0; i < filesIds.length; i += 2) {
-      fileIds.push([filesIds[i], parseInt(filesIds[i + 1])]);
+    for (let i = 0; i < rawFileIds.length; i += 2) {
+      fileIds.push([rawFileIds[i], parseInt(rawFileIds[i + 1])]);
     }
     const filenames = await redis.hmget(
       "filenames",
