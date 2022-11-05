@@ -7,11 +7,17 @@ import * as cors from "cors";
 import CONFIG from "./config";
 import * as path from "path";
 import { applicationDefault, initializeApp } from "firebase-admin/app";
+import { credential } from "firebase-admin";
 import { getAuth } from "firebase-admin/auth";
 import { redis } from "./redis";
 
 initializeApp({
-  credential: applicationDefault(),
+  credential: credential.cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    // replace `\` and `n` character pairs w/ single `\n` character
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  }),
 });
 
 interface User {
@@ -65,15 +71,15 @@ const appRouter = t.router({
     .input(z.object({ fileId: z.string() }))
     .query(async (req) => {
       console.log("getFileTitle", req.input.fileId);
-      
+
       if (!req.ctx.user) return;
 
-      let name = await redis.hget("filenames", req.input.fileId) || "Untitled";
+      let name =
+        (await redis.hget("filenames", req.input.fileId)) || "Untitled";
 
       console.log("fname", name);
-      
-      return name;
 
+      return name;
     }),
   registerFileOpen: t.procedure
     .input(
