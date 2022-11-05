@@ -28,7 +28,7 @@ export default function File() {
       setFileTitle(title);
     });
     return sub;
-  }, []);
+  }, [fileId]);
 
   useEffect(() => {
     const doc = new Y.Doc();

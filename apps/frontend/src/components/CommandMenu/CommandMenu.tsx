@@ -6,6 +6,7 @@ import { useUser } from "../../state/UserProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import { client, trpc } from "../../utils/trpc";
 import { auth } from "../../utils/auth";
+import { Link } from "react-router-dom";
 
 export default function CommandMenu() {
   const [open, setOpen] = useState(false);
@@ -39,7 +40,7 @@ export default function CommandMenu() {
               <ul>
                 {filesForUser.data?.map((file) => (
                   <li key={file.id}>
-                    <span>{file.title}</span>
+                    <Link to={"/edit/" + file.id}>{file.title}</Link>
                     <span className={s.date}>
                       {new Date(file.lastEdited).toLocaleDateString("de", {
                         day: "2-digit",
