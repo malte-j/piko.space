@@ -6,7 +6,7 @@ import * as Y from "yjs";
 import Editor from "../../components/Editor/Editor";
 import FileInteractionPill from "../../components/FileInteractionPill/FileInteractionPill";
 import { auth } from "../../utils/auth";
-import { client, trpc } from "../../utils/trpc";
+import { client } from "../../utils/trpc";
 import s from "./file.module.scss";
 
 export default function File() {

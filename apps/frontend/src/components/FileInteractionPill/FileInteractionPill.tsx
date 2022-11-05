@@ -17,8 +17,13 @@ export default function FileInteractionPill({
   useEffect(() => {
     setT(title);
   }, [title]);
+  const utils = trpc.useContext();
 
-  const mutSetTitle = trpc.setFileTitle.useMutation();
+  const mutSetTitle = trpc.setFileTitle.useMutation({
+    onSuccess(input) {
+      utils.userRecentFiles.invalidate();
+    },
+  });
 
   return (
     <div className={s.copyToClipboard}>

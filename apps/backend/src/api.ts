@@ -1,14 +1,14 @@
 // @filename: server.ts
 import { inferAsyncReturnType, initTRPC } from "@trpc/server";
-import { z } from "zod";
 import * as trpcExpress from "@trpc/server/adapters/express";
-import * as express from "express";
 import * as cors from "cors";
-import CONFIG from "./config";
-import * as path from "path";
-import { applicationDefault, initializeApp } from "firebase-admin/app";
+import * as express from "express";
 import { credential } from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import * as path from "path";
+import { z } from "zod";
+import CONFIG from "./config";
 import { redis } from "./redis";
 
 initializeApp({
@@ -29,7 +29,7 @@ const t = initTRPC.context<Context>().create();
 const appRouter = t.router({
   userRecentFiles: t.procedure.query(async (req) => {
     if (!req.ctx.user) return;
-    const filesIds = await redis.zrange(
+    const filesIds = await redis.zrevrange(
       "user:" + req.ctx.user.uid + ":recent_files",
       0,
       -1,
@@ -53,7 +53,7 @@ const appRouter = t.router({
     for (let i = 0; i < filenames.length; i++) {
       files.push({
         id: fileIds[i][0],
-        title: filenames[i] || "Untitled",
+        title: filenames[i] || fileIds[i][0],
         lastEdited: fileIds[i][1],
       });
     }
@@ -75,7 +75,7 @@ const appRouter = t.router({
       if (!req.ctx.user) return;
 
       let name =
-        (await redis.hget("filenames", req.input.fileId)) || "Untitled";
+        (await redis.hget("filenames", req.input.fileId)) ?? req.input.fileId;
 
       console.log("fname", name);
 
