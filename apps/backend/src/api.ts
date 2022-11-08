@@ -6,6 +6,7 @@ import * as express from "express";
 import { credential } from "firebase-admin";
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
+import { logging } from "lib0";
 import * as path from "path";
 import { z } from "zod";
 import CONFIG from "./config";
@@ -20,11 +21,6 @@ initializeApp({
   }),
 });
 
-interface User {
-  id: string;
-  name: string;
-}
-
 const t = initTRPC.context<Context>().create();
 const appRouter = t.router({
   userRecentFiles: t.procedure.query(async (req) => {
@@ -35,10 +31,12 @@ const appRouter = t.router({
       -1,
       "WITHSCORES"
     );
+
     const fileIds: [string, number][] = [];
     for (let i = 0; i < rawFileIds.length; i += 2) {
-      fileIds.push([rawFileIds[i], parseInt(rawFileIds[i + 1])]);
+      fileIds.push([rawFileIds[i], parseFloat(rawFileIds[i + 1])]);
     }
+
     const filenames = await redis.hmget(
       "filenames",
       ...fileIds.map((f) => f[0])
@@ -70,14 +68,8 @@ const appRouter = t.router({
   getFileTitle: t.procedure
     .input(z.object({ fileId: z.string() }))
     .query(async (req) => {
-      console.log("getFileTitle", req.input.fileId);
-
-      if (!req.ctx.user) return;
-
-      let name =
+      const name =
         (await redis.hget("filenames", req.input.fileId)) ?? req.input.fileId;
-
-      console.log("fname", name);
 
       return name;
     }),
@@ -89,11 +81,10 @@ const appRouter = t.router({
     )
     .mutation(async (req) => {
       if (!req.ctx.user) return;
-      console.log("registerFileOpen", req.input);
 
       redis.zadd(
         "user:" + req.ctx.user.uid + ":recent_files",
-        Date.now(),
+        Math.floor(Date.now() / 1000),
         req.input.fileId
       );
     }),
@@ -129,6 +120,7 @@ type Context = inferAsyncReturnType<typeof createContext>;
 export type AppRouter = typeof appRouter;
 
 export const app = express();
+
 app.disable("x-powered-by");
 app.use(
   cors({

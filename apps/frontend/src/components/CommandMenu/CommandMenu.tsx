@@ -10,7 +10,10 @@ import AuthState from "../AuthState/AuthState";
 import s from "./CommandMenu.module.scss";
 
 export default function CommandMenu() {
-  const [open, setOpen, toggleOpen] = useCommandMenuStore((state) => [state.navOpen, state.setOpen, state.toggle]);
+  const [open, setOpen] = useCommandMenuStore((state) => [
+    state.navOpen,
+    state.setOpen,
+  ]);
   const { user } = useUser();
   const [search, setSearch] = useState("");
 
@@ -21,7 +24,6 @@ export default function CommandMenu() {
   const fuse = useMemo(() => {
     return new Fuse(filesForUser.data || [], {
       keys: ["title"],
-      // includeScore: true,
     });
   }, [filesForUser]);
 
@@ -59,15 +61,23 @@ export default function CommandMenu() {
               <ul>
                 {searchResult.map((file) => (
                   <li key={file.id}>
-                    <Link to={"/edit/" + file.id}>{file.title}</Link>
+                    <Link
+                      to={"/edit/" + file.id}
+                      onClick={() => setOpen(false)}
+                    >
+                      {file.title}
+                    </Link>
                     <span className={s.date}>
-                      {new Date(file.lastEdited).toLocaleDateString("de", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "2-digit",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      {new Date(file.lastEdited * 1000).toLocaleDateString(
+                        "de",
+                        {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
                     </span>
                   </li>
                 ))}

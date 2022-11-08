@@ -59,6 +59,8 @@ importers:
 
   apps/frontend:
     specifiers:
+      '@emoji-mart/data': ^1.0.6
+      '@emoji-mart/react': ^1.0.1
       '@radix-ui/react-alert-dialog': ^1.0.2
       '@radix-ui/react-dialog': ^1.0.0
       '@radix-ui/react-icons': ^1.1.1
@@ -78,16 +80,18 @@ importers:
       '@trpc/client': 10.0.0-proxy-beta.10
       '@trpc/react': 10.0.0-proxy-beta.10
       '@trpc/server': 10.0.0-proxy-beta.10
+      '@types/emoji-mart': ^3.0.9
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@vitejs/plugin-react': ^1.3.0
+      emoji-mart: ^5.2.2
       firebase: ^9.13.0
       fuse.js: ^6.6.2
       nanoid: ^3.3.4
       prosemirror-model: ^1.18.1
       prosemirror-state: ^1.4.2
       prosemirror-view: ^1.29.0
-      react: ^18.1.0
+      react: ^18.2.0
       react-dom: ^18.0.0
       react-router-dom: '6'
       sass: ^1.52.2
@@ -100,6 +104,8 @@ importers:
       yjs: ^13.5.35
       zustand: ^4.1.1
     dependencies:
+      '@emoji-mart/data': 1.0.6
+      '@emoji-mart/react': 1.0.1_7bfolod3fxggxsuqg7r6agi3si
       '@radix-ui/react-alert-dialog': 1.0.2_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-dialog': 1.0.0_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-icons': 1.1.1_react@18.2.0
@@ -119,6 +125,7 @@ importers:
       '@trpc/client': 10.0.0-proxy-beta.10_mlw32zyizxtrtwug5e45gmjmvi
       '@trpc/react': 10.0.0-proxy-beta.10_f6dvtwgprd7c7musqrh4tuexz4
       '@trpc/server': 10.0.0-proxy-beta.10
+      emoji-mart: 5.2.2
       firebase: 9.13.0
       fuse.js: 6.6.2
       nanoid: 3.3.4
@@ -135,6 +142,7 @@ importers:
       yjs: 13.5.40
       zustand: 4.1.1_react@18.2.0
     devDependencies:
+      '@types/emoji-mart': 3.0.9
       '@types/react': 18.0.15
       '@types/react-dom': 18.0.6
       '@vitejs/plugin-react': 1.3.2
@@ -1506,6 +1514,20 @@ packages:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
     dev: true
+
+  /@emoji-mart/data/1.0.6:
+    resolution: {integrity: sha512-8wu3ec/kLCB0Y3K+pOKyY6Ob+xtQu3XhZvntdrpOTUQZ/PO6FW5PpFw7RE1kQ/up1fsVSJBl5mZ8Gs4SPwTYeg==}
+    dev: false
+
+  /@emoji-mart/react/1.0.1_7bfolod3fxggxsuqg7r6agi3si:
+    resolution: {integrity: sha512-ALhLD96BOL5w+a4NI5NpmfqfF1aVjjj2qJE0dLst/OhjBfVmpteWNgn/h8LZy9ulU6AnbeS+13KnPFzDjCvRRw==}
+    peerDependencies:
+      emoji-mart: ^5.2
+      react: ^16.8 || ^17 || ^18
+    dependencies:
+      emoji-mart: 5.2.2
+      react: 18.2.0
+    dev: false
 
   /@esbuild/android-arm/0.15.13:
     resolution: {integrity: sha512-RY2fVI8O0iFUNvZirXaQ1vMvK0xhCcl0gqRj74Z6yEiO1zAUa7hbsdwZM1kzqbxHK7LFyMizipfXT3JME+12Hw==}
@@ -3033,6 +3055,12 @@ packages:
     resolution: {integrity: sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==}
     dev: false
 
+  /@types/emoji-mart/3.0.9:
+    resolution: {integrity: sha512-qdBo/2Y8MXaJ/2spKjDZocuq79GpnOhkwMHnK2GnVFa8WYFgfA+ei6sil3aeWQPCreOKIx9ogPpR5+7MaOqYAA==}
+    dependencies:
+      '@types/react': 18.0.15
+    dev: true
+
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: true
@@ -3741,6 +3769,10 @@ packages:
   /electron-to-chromium/1.4.284:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
     dev: true
+
+  /emoji-mart/5.2.2:
+    resolution: {integrity: sha512-BvcrX+Ps9MxSVEjnvxupclU3MBD6WVC4WZOY26csfC6oFdaWpFhdrzeVNVBmCLPOmzY1SE0aAsqZJRNVbZ1yhQ==}
+    dev: false
 
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
