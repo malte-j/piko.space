@@ -70,19 +70,31 @@
     border-radius: 6px;
   }
 
+  &[data-search-active="true"] {
+    // height: 200px;
+    height: var(--height);
+  }
+
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 2px;
 
     li {
       display: flex;
       word-break: break-all;
       gap: 12px;
+      padding: 4px 0;
+      border-radius: 6px;
       justify-content: space-between;
+
+      &:focus-within {
+        // outline: 1px solid #fff;
+        background-color: rgba(255, 255, 255, 0.151);
+      }
     }
 
     a {
@@ -92,9 +104,18 @@
       &:hover {
         text-decoration: underline;
       }
+
+      &:focus {
+        outline: none;
+      }
     }
     .date {
       color: #969696;
     }
   }
+}
+
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
 }

@@ -6,7 +6,6 @@ import * as express from "express";
 import { credential } from "firebase-admin";
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
-import { logging } from "lib0";
 import * as path from "path";
 import { z } from "zod";
 import CONFIG from "./config";

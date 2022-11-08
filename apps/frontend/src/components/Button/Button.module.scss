@@ -20,8 +20,22 @@
     }
   }
 
+  &[data-variant="outline"] {
+    background: none;
+    padding: 5px 6px;
+    border: 1px solid #c9c9c9;
+    color: #5a5a5a;
+    font-weight: 400;
+    gap: 6px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.264);
+      color: rgb(61, 61, 61);
+    }
+  }
+
   &[disabled] {
-    cursor:  default;
+    cursor: default;
     color: rgb(150, 150, 150);
 
     &:hover {

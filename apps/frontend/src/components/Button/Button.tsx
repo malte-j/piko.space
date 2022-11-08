@@ -6,7 +6,7 @@ export default function Button(
     ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   >  & {
-    variant?: "regular" | "clear";
+    variant?: "regular" | "clear" | "outline";
   }
 ) {
   return (
