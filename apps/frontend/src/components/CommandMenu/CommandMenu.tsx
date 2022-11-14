@@ -1,7 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import {
-  Pencil2Icon
-} from "@radix-ui/react-icons";
+import { Pencil2Icon } from "@radix-ui/react-icons";
 import Fuse from "fuse.js";
 import { nanoid } from "nanoid";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -21,11 +19,25 @@ export default function CommandMenu() {
   ]);
   const { user } = useUser();
   const [search, setSearch] = useState("");
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const fileListRef = useRef<HTMLDivElement>(null);
 
-  let filesForUser = trpc.userRecentFiles.useQuery(undefined, {
+  const filesForUser = trpc.userRecentFiles.useQuery(undefined, {
     enabled: auth.currentUser != null,
+    keepPreviousData: true,
+    onSuccess(data) {
+      if (!data) return;
+      window.localStorage.setItem("user:recent_files", data.toString());
+    },
+    initialData: () => {
+      const prevRecentFiles = window.localStorage.getItem("user:recent_files");
+      if (!prevRecentFiles) return;
+      try {
+        return JSON.parse(prevRecentFiles);
+      } catch (e) {
+        return;
+      }
+    },
   });
 
   const fuse = useMemo(() => {

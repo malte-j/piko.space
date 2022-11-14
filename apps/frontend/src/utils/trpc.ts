@@ -11,17 +11,18 @@ export const client = createTRPCProxyClient<AppRouter>({
     httpBatchLink({
       url: import.meta.env.VITE_BACKEND_URL + "/trpc",
       headers: async () => {
-        const user = await auth.currentUser?.getIdToken();
-
-        // wait for user
-        if (!user) {
+        try {
+          const user = await auth.currentUser?.getIdToken();
+          if (!user) {
+            return {};
+          }
+          return {
+            authorization: `Bearer ${await getAuth().currentUser?.getIdToken()}`,
+          };
+        } catch (e) {
           return {};
         }
-
-        return {
-          authorization: `Bearer ${await getAuth().currentUser?.getIdToken()}`,
-          example: "hello",
-        };
+        // wait for user
       },
     }),
   ],

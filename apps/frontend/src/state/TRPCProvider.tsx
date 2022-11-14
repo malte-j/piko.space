@@ -16,11 +16,15 @@ export function TRPCProvider({
         httpBatchLink({
           url: import.meta.env.VITE_BACKEND_URL + "/trpc",
           async headers() {
-            const token = await auth.currentUser!.getIdToken();
-
-            return {
-              authorization: "Bearer " + token,
-            };
+            try {
+              const token = await auth.currentUser!.getIdToken();
+              if (!token) return {};
+              return {
+                authorization: "Bearer " + token,
+              };
+            } catch {
+              return {};
+            }
           },
         }),
       ],

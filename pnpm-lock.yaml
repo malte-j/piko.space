@@ -67,6 +67,7 @@ importers:
       '@tanstack/react-query': ^4.7.2
       '@tiptap/core': 2.0.0-beta.202
       '@tiptap/extension-bubble-menu': 2.0.0-beta.202
+      '@tiptap/extension-code-block-lowlight': 2.0.0-beta.202
       '@tiptap/extension-collaboration': 2.0.0-beta.202
       '@tiptap/extension-collaboration-cursor': 2.0.0-beta.202
       '@tiptap/extension-document': 2.0.0-beta.202
@@ -87,6 +88,7 @@ importers:
       emoji-mart: ^5.2.2
       firebase: ^9.13.0
       fuse.js: ^6.6.2
+      lowlight: ^2.7.0
       nanoid: ^3.3.4
       prosemirror-model: ^1.18.1
       prosemirror-state: ^1.4.2
@@ -112,6 +114,7 @@ importers:
       '@tanstack/react-query': 4.7.2_biqbaboplfbrettd7655fr4n2y
       '@tiptap/core': 2.0.0-beta.202
       '@tiptap/extension-bubble-menu': 2.0.0-beta.202_fosglmwb3u6jhi6bbjmnlbdsbu
+      '@tiptap/extension-code-block-lowlight': 2.0.0-beta.202_fosglmwb3u6jhi6bbjmnlbdsbu
       '@tiptap/extension-collaboration': 2.0.0-beta.202_lzjqiiu6axpxdeszgoqbcxccna
       '@tiptap/extension-collaboration-cursor': 2.0.0-beta.202_ifsxu3ya5a3g3jvvhc52glqd5e
       '@tiptap/extension-document': 2.0.0-beta.202_fosglmwb3u6jhi6bbjmnlbdsbu
@@ -128,6 +131,7 @@ importers:
       emoji-mart: 5.2.2
       firebase: 9.13.0
       fuse.js: 6.6.2
+      lowlight: 2.7.0
       nanoid: 3.3.4
       prosemirror-model: 1.18.1
       prosemirror-state: 1.4.2
@@ -2734,6 +2738,18 @@ packages:
       '@tiptap/core': 2.0.0-beta.202
     dev: false
 
+  /@tiptap/extension-code-block-lowlight/2.0.0-beta.202_fosglmwb3u6jhi6bbjmnlbdsbu:
+    resolution: {integrity: sha512-FnYBl0Bgir+KkSScK4bUKVfvmEb2Q0aeDQh53umCeCGpVIzyO6JqggNqtBh0RqnJDptCSoP72fq7lu8uhQtYhw==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0-beta.193
+      '@tiptap/extension-code-block': ^2.0.0-beta.193
+    dependencies:
+      '@tiptap/core': 2.0.0-beta.202
+      prosemirror-model: 1.18.1
+      prosemirror-state: 1.4.2
+      prosemirror-view: 1.29.0
+    dev: false
+
   /@tiptap/extension-code-block/2.0.0-beta.202_fosglmwb3u6jhi6bbjmnlbdsbu:
     resolution: {integrity: sha512-tfK9khIroGjsXQvk2K/9z1/UyQrB4+zghkjyK1xikzRmhgfOeqQzA0TDrFrz7ywFXmSFQ7GnnYAp+RW6r6wyUg==}
     peerDependencies:
@@ -3080,6 +3096,12 @@ packages:
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.0
 
+  /@types/hast/2.3.4:
+    resolution: {integrity: sha512-wLEm0QvaoawEDoTRwzTXp4b4jpwiJDvR5KMnFnVodm3scufTlBOWRD6N1OBf9TZMhjlNsSfcO5V+7AF4+Vy+9g==}
+    dependencies:
+      '@types/unist': 2.0.6
+    dev: false
+
   /@types/jsonwebtoken/8.5.9:
     resolution: {integrity: sha512-272FMnFGzAVMGtu9tkr29hRL6bZj4Zs1KZNeHLnKqAvp06tAIcarTMwOh8/8bz4FmKRcMxZhZNeUAQsNLoiPhg==}
     dependencies:
@@ -3169,6 +3191,10 @@ packages:
   /@types/trusted-types/2.0.2:
     resolution: {integrity: sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==}
     dev: true
+
+  /@types/unist/2.0.6:
+    resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: false
 
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
@@ -4237,6 +4263,12 @@ packages:
       reusify: 1.0.4
     dev: true
 
+  /fault/2.0.1:
+    resolution: {integrity: sha512-WtySTkS4OKev5JtpHXnib4Gxiurzh5NCGvWrFaZ34m6JehfTUhKZvn9njTfw48t6JumVQOmrKqpmGcdwxnhqBQ==}
+    dependencies:
+      format: 0.2.2
+    dev: false
+
   /faye-websocket/0.11.4:
     resolution: {integrity: sha512-CzbClwlXAuiRQAlUyfqPgvPoNKTckTPGfwZV4ZdAhVcP2lh9KUxJg2b5GkE7XbjKQ3YJnQ9z6D9ntLAlB+tP8g==}
     engines: {node: '>=0.8.0'}
@@ -4325,6 +4357,11 @@ packages:
       - bufferutil
       - encoding
       - utf-8-validate
+    dev: false
+
+  /format/0.2.2:
+    resolution: {integrity: sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==}
+    engines: {node: '>=0.4.x'}
     dev: false
 
   /forwarded/0.2.0:
@@ -4581,6 +4618,11 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+
+  /highlight.js/11.6.0:
+    resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
+    engines: {node: '>=12.0.0'}
+    dev: false
 
   /history/5.3.0:
     resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
@@ -5229,6 +5271,14 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+    dev: false
+
+  /lowlight/2.7.0:
+    resolution: {integrity: sha512-RRdrHalFfjpxL91ITTX7KhJYH3QmX5bW9Uie2D2E5GPIR3XBYDYhScBjE291ewFZkStz/k2PN9KC+8deNLiI3Q==}
+    dependencies:
+      '@types/hast': 2.3.4
+      fault: 2.0.1
+      highlight.js: 11.6.0
     dev: false
 
   /lru-cache/4.0.2:

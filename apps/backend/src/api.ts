@@ -22,8 +22,9 @@ initializeApp({
 
 const t = initTRPC.context<Context>().create();
 const appRouter = t.router({
+
   userRecentFiles: t.procedure.query(async (req) => {
-    if (!req.ctx.user) return;
+    if (!req.ctx.user) return null;
     const rawFileIds = await redis.zrevrange(
       "user:" + req.ctx.user.uid + ":recent_files",
       0,
@@ -79,7 +80,7 @@ const appRouter = t.router({
       })
     )
     .mutation(async (req) => {
-      if (!req.ctx.user) return;
+      if (!req.ctx.user) return null;
 
       redis.zadd(
         "user:" + req.ctx.user.uid + ":recent_files",

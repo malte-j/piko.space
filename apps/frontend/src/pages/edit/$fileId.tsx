@@ -8,7 +8,7 @@ import Editor from "../../components/Editor/Editor";
 import FileInteractionPill from "../../components/FileInteractionPill/FileInteractionPill";
 import { useCommandMenuStore } from "../../state/CommandMenuStore";
 import { auth } from "../../utils/auth";
-import { client } from "../../utils/trpc";
+import { client, trpc } from "../../utils/trpc";
 import s from "./file.module.scss";
 
 export default function File() {
@@ -21,14 +21,22 @@ export default function File() {
   const [setOpen] = useCommandMenuStore((state) => [state.setOpen]);
 
   const { file: fileId } = useParams();
-  const [fileTitle, setFileTitle] = useState<string>();
+
+  const {data: fileTitle} = trpc.getFileTitle.useQuery(
+    { fileId: fileId! },
+    {
+      enabled: fileId != null,
+      onError(e) {
+        console.log("error", e);
+        
+      }
+    }
+  );
 
   useEffect(() => {
     let sub = auth.onAuthStateChanged(async (user) => {
-      const u = await user?.getIdToken();
+      await user?.getIdToken();
       client.registerFileOpen.mutate({ fileId: fileId! });
-      const title = await client.getFileTitle.query({ fileId: fileId! });
-      setFileTitle(title);
     });
     return sub;
   }, [fileId]);
@@ -89,9 +97,10 @@ export default function File() {
           ))}
         </ul>
 
-        <HamburgerMenuIcon 
+        <HamburgerMenuIcon
           className={s.menuIcon}
-        onClick={() => setOpen(true)} />
+          onClick={() => setOpen(true)}
+        />
 
         <FileInteractionPill
           title={fileTitle || ""}

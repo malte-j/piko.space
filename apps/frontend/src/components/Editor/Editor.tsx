@@ -16,11 +16,17 @@ import { getRandomColor } from "../../utils";
 import { useUser } from "../../state/UserProvider";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import {lowlight} from "lowlight";
 
 interface EditorProps {
   doc: Y.Doc;
   provider: WebsocketProvider;
 }
+
+CodeBlockLowlight.configure({
+  lowlight,
+})
 
 export default function Editor({ doc, provider }: EditorProps) {
   const { user } = useUser();
@@ -52,6 +58,9 @@ export default function Editor({ doc, provider }: EditorProps) {
             name: user!.name,
             color: getRandomColor(),
           },
+        }),
+        CodeBlockLowlight.configure({
+          lowlight,
         }),
       ],
     },
