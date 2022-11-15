@@ -27,7 +27,8 @@ export default function CommandMenu() {
     keepPreviousData: true,
     onSuccess(data) {
       if (!data) return;
-      window.localStorage.setItem("user:recent_files", data.toString());
+
+      window.localStorage.setItem("user:recent_files", JSON.stringify(data));
     },
     initialData: () => {
       const prevRecentFiles = window.localStorage.getItem("user:recent_files");
