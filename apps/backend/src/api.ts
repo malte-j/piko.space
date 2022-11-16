@@ -13,16 +13,14 @@ import { redis } from "./redis";
 
 initializeApp({
   credential: credential.cert({
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    // replace `\` and `n` character pairs w/ single `\n` character
-    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    projectId: CONFIG.firebase.projectId,
+    clientEmail: CONFIG.firebase.clientEmail,
+    privateKey: CONFIG.firebase.privateKey,
   }),
 });
 
 const t = initTRPC.context<Context>().create();
 const appRouter = t.router({
-
   userRecentFiles: t.procedure.query(async (req) => {
     if (!req.ctx.user) return null;
     const rawFileIds = await redis.zrevrange(
@@ -124,7 +122,7 @@ export const app = express();
 app.disable("x-powered-by");
 app.use(
   cors({
-    origin: CONFIG.FRONTEND_URL,
+    origin: CONFIG.frontendUrl,
   })
 );
 

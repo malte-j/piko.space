@@ -5,7 +5,6 @@ import * as promise from "lib0/promise";
 import * as error from "lib0/error";
 import * as logging from "lib0/logging";
 import Redis, { Cluster, ClusterNode, RedisOptions } from "ioredis";
-import CONFIG from "../config";
 
 const logger = logging.createModuleLogger("y-redis");
 

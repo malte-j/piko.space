@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "DOTENV_CONFIG_PATH=.env.local HOST=0.0.0.0 PORT=5510 LOG=* npx ts-node-dev -r dotenv/config src/index.ts",
-    "build": "tsc && esbuild dist/index.js --bundle --platform=node --target=node16 --outfile=bundle.js"
+    "build": "tsc && esbuild dist/index.js --bundle --platform=node --target=node16 --outfile=bundle.js",
+    "debug": "pnpm run build && DOTENV_CONFIG_PATH=.env.local HOST=0.0.0.0 PORT=5510 LOG=* node -r dotenv/config bundle.js"
   },
   "keywords": [],
   "author": "",

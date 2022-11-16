@@ -11,6 +11,7 @@
   hyphens: auto;
   font-size: 14px;
   min-height: 50vh;
+  font-variant-ligatures: common-ligatures !important;
 
   word-wrap: break-word;
 
@@ -81,7 +82,6 @@
 
       span {
         font-family: "JetBrainsMono", "Space Mono", monospace;
-
       }
     }
   }
@@ -129,8 +129,12 @@
     }
   }
 
-  ol li ol li {
+  li li {
     list-style: lower-roman;
+  }
+
+  li li li {
+    list-style: lower-latin;
   }
 }
 

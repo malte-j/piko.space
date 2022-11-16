@@ -6,8 +6,8 @@ export const redis = createRedisConnection();
 export function createRedisConnection() {
   return new Redis({
     family: 6,
-    host: CONFIG.redisHost,
-    password: CONFIG.redisPassword,
-    port: CONFIG.redisPort,
+    host: CONFIG.redis.host,
+    password: CONFIG.redis.password,
+    port: CONFIG.redis.port,
   });
 }
