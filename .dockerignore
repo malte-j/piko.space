@@ -5,3 +5,5 @@ bundle.js
 account-key.json
 dist
 dev-dist
+.git
+apps/backend/bundle.js
