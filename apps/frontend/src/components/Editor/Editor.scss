@@ -129,12 +129,16 @@
     }
   }
 
-  li li {
+  ol li li {
     list-style: lower-roman;
-  }
 
-  li li li {
-    list-style: lower-latin;
+    li {
+      list-style: lower-latin;
+
+      li {
+        list-style: decimal;
+      }
+    }
   }
 }
 

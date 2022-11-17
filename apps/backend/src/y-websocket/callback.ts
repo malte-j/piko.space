@@ -37,7 +37,7 @@ export const callbackHandler = (
     };
   });
   // @TODO: fix ! declarations
-  callbackRequest(CALLBACK_URL!, CALLBACK_TIMEOUT, dataToSend);
+  // callbackRequest(CALLBACK_URL!, CALLBACK_TIMEOUT, dataToSend);
 };
 
 const callbackRequest = (url: URL, timeout: number, data: Object) => {

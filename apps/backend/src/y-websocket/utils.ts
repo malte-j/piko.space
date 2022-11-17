@@ -93,14 +93,14 @@ export class WSSharedDoc extends Y.Doc {
     this.awareness.setLocalState(null);
     this.awareness.on("update", this.awarenessChangeHandler.bind(this));
     this.on("update", this.updateHandler.bind(this));
-    if (isCallbackSet) {
-      this.on(
-        "update",
-        debounce(callbackHandler, CONFIG.WSSharedDoc.CALLBACK_DEBOUNCE_WAIT, {
-          maxWait: CONFIG.WSSharedDoc.CALLBACK_DEBOUNCE_MAXWAIT,
-        })
-      );
-    }
+    // if (isCallbackSet) {
+    //   this.on(
+    //     "update",
+    //     debounce(callbackHandler, CONFIG.WSSharedDoc.CALLBACK_DEBOUNCE_WAIT, {
+    //       maxWait: CONFIG.WSSharedDoc.CALLBACK_DEBOUNCE_MAXWAIT,
+    //     })
+    //   );
+    // }
   }
 
   private updateHandler(update: Uint8Array, origin: any, doc: WSSharedDoc) {
