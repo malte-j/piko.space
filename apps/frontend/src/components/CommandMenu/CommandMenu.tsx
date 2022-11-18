@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Pencil2Icon } from "@radix-ui/react-icons";
+import { ArchiveIcon, FileIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import Fuse from "fuse.js";
 import { nanoid } from "nanoid";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -11,6 +11,7 @@ import { trpc } from "../../utils/trpc";
 import AuthState from "../AuthState/AuthState";
 import Button from "../Button/Button";
 import s from "./CommandMenu.module.scss";
+import File from "./File";
 
 export default function CommandMenu() {
   const [open, setOpen] = useCommandMenuStore((state) => [
@@ -47,8 +48,21 @@ export default function CommandMenu() {
     });
   }, [filesForUser]);
 
+  const [currentFileList, setCurrentFileList] = useState<"recent" | "archive">(
+    "recent"
+  );
+
   const searchResult = useMemo(() => {
-    if (search === "") return filesForUser.data || [];
+    if (!filesForUser.data) return [];
+
+    if (search === "") {
+      switch (currentFileList) {
+        case "recent":
+          return filesForUser.data.filter((file) => file.title != null);
+        case "archive":
+          return filesForUser.data.filter((file) => file.title == null);
+      }
+    }
     return fuse.search(search).map((res) => res.item);
   }, [fuse, search]);
 
@@ -91,6 +105,20 @@ export default function CommandMenu() {
                 setSearch("");
               }}
             />
+            <div className={s.fileListMenu}>
+              <button
+                data-active={currentFileList === "recent"}
+                onClick={() => setCurrentFileList("recent")}
+              >
+                <FileIcon /> Recent Documents
+              </button>
+              <button
+                data-active={currentFileList === "archive"}
+                onClick={() => setCurrentFileList("archive")}
+              >
+                <ArchiveIcon /> Archive
+              </button>
+            </div>
             <div
               ref={fileListRef}
               className={s.files}
@@ -104,32 +132,29 @@ export default function CommandMenu() {
             >
               <ul>
                 {searchResult.map((file) => (
-                  <li key={file.id}>
-                    <Link
-                      to={"/edit/" + file.id}
-                      onClick={() => {
-                        setSearch("");
-                        setOpen(false);
-                      }}
-                    >
-                      {file.title}
-                    </Link>
-                    <span className={s.date}>
-                      {new Date(file.lastEdited * 1000).toLocaleDateString(
-                        "de",
-                        {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "2-digit",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        }
-                      )}
-                    </span>
-                  </li>
+                  <File
+                    file={file}
+                    onClick={() => {
+                      setSearch("");
+                      setOpen(false);
+                    }}
+                  />
                 ))}
               </ul>
             </div>
+            <div className={s.divider}></div>
+            <details>
+              <summary>Details</summary>
+              <File
+                file={{
+                  id: nanoid(),
+                  title: "Neues Dokument",
+                  lastEdited: Date.now() / 1000,
+                }}
+                onClick={() => {}}
+              />
+            </details>
+
             <div className={s.divider}></div>
             <div className={s.bottomBar}>
               <Button

@@ -42,14 +42,14 @@ const appRouter = t.router({
 
     const files: {
       id: string;
-      title: string;
+      title: string | null;
       lastEdited: number;
     }[] = [];
 
     for (let i = 0; i < filenames.length; i++) {
       files.push({
         id: fileIds[i][0],
-        title: filenames[i] || fileIds[i][0],
+        title: filenames[i] || null,
         lastEdited: fileIds[i][1],
       });
     }
@@ -66,8 +66,7 @@ const appRouter = t.router({
   getFileTitle: t.procedure
     .input(z.object({ fileId: z.string() }))
     .query(async (req) => {
-      const name =
-        (await redis.hget("filenames", req.input.fileId)) ?? req.input.fileId;
+      const name = (await redis.hget("filenames", req.input.fileId)) || null;
 
       return name;
     }),
@@ -87,6 +86,15 @@ const appRouter = t.router({
       );
     }),
 });
+
+// create file -> registerFileOpen
+// recentFiles - All Files
+// files without title -> archive
+// file with title -> recentFiles
+// delete file
+// navigate to different file -> remove file:<file_id>:updates
+
+//
 
 export async function createContext({
   req,

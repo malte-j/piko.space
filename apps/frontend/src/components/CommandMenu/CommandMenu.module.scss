@@ -22,7 +22,7 @@
   animation: scaleup 0.1s ease-out;
 
   > *:not(.divider) {
-    margin: 14px 18px;
+    margin: 10px 18px;
   }
 }
 
@@ -82,42 +82,71 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-
-    li {
-      display: flex;
-      word-break: break-all;
-      gap: 12px;
-      padding: 4px 0;
-      border-radius: 6px;
-      justify-content: space-between;
-
-      &:focus-within {
-        // outline: 1px solid #fff;
-        background-color: rgba(255, 255, 255, 0.151);
-      }
-    }
-
-    a {
-      color: #000;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-
-      &:focus {
-        outline: none;
-      }
-    }
-    .date {
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.8px;
-      color: #969696;
-    }
   }
 }
 
 .bottomBar {
   display: flex;
   justify-content: space-between;
+}
+
+li,
+.file {
+  display: flex;
+  word-break: break-all;
+  gap: 12px;
+  padding: 4px 8px;
+  border-radius: 100px;
+  justify-content: space-between;
+  position: relative;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  &:focus-within {
+    background-color: rgba(255, 255, 255, 0.151);
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .date {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.8px;
+    color: #969696;
+  }
+}
+
+.fileListMenu {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  // margin-bottom: 0 !important;
+
+  button {
+    display: flex;
+    gap: 6px;
+    font-weight: 500;
+    align-items: center;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    color: hsla(0, 0%, 59%, 1);
+
+    &[data-active="true"] {
+      background: rgba(249, 249, 249, 0.52);
+      color: hsla(0, 0%, 32%, 1);
+    }
+  }
 }

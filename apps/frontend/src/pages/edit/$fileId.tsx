@@ -22,14 +22,13 @@ export default function File() {
 
   const { file: fileId } = useParams();
 
-  const {data: fileTitle} = trpc.getFileTitle.useQuery(
+  const { data: fileTitle } = trpc.getFileTitle.useQuery(
     { fileId: fileId! },
     {
       enabled: fileId != null,
       onError(e) {
         console.log("error", e);
-        
-      }
+      },
     }
   );
 
@@ -103,7 +102,7 @@ export default function File() {
         />
 
         <FileInteractionPill
-          title={fileTitle || ""}
+          title={fileTitle || fileId!}
           id={fileId!}
           copyText={window.location.href}
         />
