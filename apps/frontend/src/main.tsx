@@ -10,6 +10,22 @@ import { UserProvider } from "./state/UserProvider";
 import "./styles/fonts.scss";
 import "./styles/index.scss";
 
+try {
+  let iOS = navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+
+  if (iOS) {
+    // @ts-ignore
+    document.head.querySelector('meta[name="viewport"]')!.content =
+      "width=device-width, initial-scale=1, maximum-scale=1";
+  } else {
+    // @ts-ignore
+    document.head.querySelector('meta[name="viewport"]')!.content =
+      "width=device-width, initial-scale=1";
+  }
+} catch (e) {
+  console.error(e);
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <TRPCProvider>
     <UserProvider>

@@ -90,41 +90,43 @@
   justify-content: space-between;
 }
 
-li,
-.file {
-  display: flex;
-  word-break: break-all;
-  gap: 12px;
-  padding: 4px 8px;
-  border-radius: 100px;
-  justify-content: space-between;
-  position: relative;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.03);
-  }
-
-  &:focus-within {
-    background-color: rgba(255, 255, 255, 0.151);
-  }
-
-  a {
-    color: #000;
-    text-decoration: none;
+.content {
+  li,
+  .file {
+    display: flex;
+    word-break: break-all;
+    gap: 12px;
+    padding: 4px 8px;
+    border-radius: 100px;
+    justify-content: space-between;
+    position: relative;
 
     &:hover {
-      text-decoration: underline;
+      background: rgba(0, 0, 0, 0.03);
     }
 
-    &:focus {
-      outline: none;
+    &:focus-within {
+      background-color: rgba(255, 255, 255, 0.151);
     }
-  }
 
-  .date {
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.8px;
-    color: #969696;
+    a {
+      color: #000;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .date {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.8px;
+      color: #969696;
+    }
   }
 }
 
