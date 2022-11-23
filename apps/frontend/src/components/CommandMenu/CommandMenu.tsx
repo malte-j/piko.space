@@ -3,11 +3,12 @@ import { ArchiveIcon, FileIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import Fuse from "fuse.js";
 import { nanoid } from "nanoid";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCommandMenuStore } from "../../state/CommandMenuStore";
 import { useUser } from "../../state/UserProvider";
 import { auth } from "../../utils/auth";
 import { trpc } from "../../utils/trpc";
+import useMediaMatch from "../../utils/useMediaMatch";
 import AuthState from "../AuthState/AuthState";
 import Button from "../Button/Button";
 import s from "./CommandMenu.module.scss";
@@ -22,6 +23,8 @@ export default function CommandMenu() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const fileListRef = useRef<HTMLDivElement>(null);
+
+  const isTouch = useMediaMatch("(pointer: coarse)");
 
   const filesForUser = trpc.userRecentFiles.useQuery(undefined, {
     enabled: auth.currentUser != null,
@@ -86,7 +89,10 @@ export default function CommandMenu() {
     >
       <Dialog.Portal>
         <Dialog.Overlay className={s.overlay}>
-          <Dialog.Content className={s.content}>
+          <Dialog.Content
+            onOpenAutoFocus={(e) => isTouch && e.preventDefault()}
+            className={s.content}
+          >
             <input
               value={search}
               onChange={(e) => {

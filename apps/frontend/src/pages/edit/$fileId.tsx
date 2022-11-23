@@ -119,15 +119,15 @@ export default function File() {
           ))}
         </ul>
 
-        <HamburgerMenuIcon
-          className={s.menuIcon}
-          onClick={() => setOpen(true)}
-        />
-
         <FileInteractionPill
           title={fileTitle || fileId!}
           id={fileId!}
           copyText={window.location.href}
+        />
+        
+        <HamburgerMenuIcon
+          className={s.menuIcon}
+          onClick={() => setOpen(true)}
         />
       </div>
       {ydoc && provider && <Editor provider={provider} doc={ydoc} />}
