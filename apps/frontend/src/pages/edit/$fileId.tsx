@@ -19,7 +19,6 @@ export default function File() {
     { color: string; name: string }[]
   >([]);
   const [setOpen] = useCommandMenuStore((state) => [state.setOpen]);
-
   const { file: fileId } = useParams();
 
   const { data: fileTitle } = trpc.getFileTitle.useQuery(
@@ -32,14 +31,38 @@ export default function File() {
     }
   );
 
+  /**
+   * Register file open
+   */
   useEffect(() => {
-    let sub = auth.onAuthStateChanged(async (user) => {
-      await user?.getIdToken();
-      client.registerFileOpen.mutate({ fileId: fileId! });
-    });
-    return sub;
-  }, [fileId]);
+    if (!ydoc) return;
 
+    let registeredFileOpen = false;
+    let hasToken = false;
+
+    const sub = auth.onAuthStateChanged(async (user) => {
+      await user?.getIdToken();
+      hasToken = true;
+    });
+
+    const registerUpdate = () => {
+      if (hasToken && !registeredFileOpen) {
+        registeredFileOpen = true;
+        client.registerFileOpen.mutate({ fileId: fileId! });
+        console.log("registered file open");
+      }
+    };
+
+    ydoc?.on("update", registerUpdate);
+    return () => {
+      sub();
+      ydoc?.off("update", registerUpdate);
+    };
+  }, [fileId, ydoc]);
+
+  /**
+   * Initialize new YDoc and connect to ws provider
+   */
   useEffect(() => {
     const doc = new Y.Doc();
     setYDoc(doc);

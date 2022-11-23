@@ -133,6 +133,7 @@ export default function CommandMenu() {
               <ul>
                 {searchResult.map((file) => (
                   <File
+                    key={file.id}
                     file={file}
                     onClick={() => {
                       setSearch("");
