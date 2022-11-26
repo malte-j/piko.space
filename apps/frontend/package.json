@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "DEMO=HELLO vite --port=5500 --host=0.0.0.0",
-    "build": "tsc && WS_BACKEND_URL=\"wss://piko.space/ws\"  vite build",
+    "build": "WS_BACKEND_URL=\"wss://piko.space/ws\"  vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -13,7 +13,9 @@
     "@radix-ui/react-alert-dialog": "^1.0.2",
     "@radix-ui/react-dialog": "^1.0.0",
     "@radix-ui/react-icons": "^1.1.1",
+    "@tanstack/query-sync-storage-persister": "^4.15.1",
     "@tanstack/react-query": "^4.7.2",
+    "@tanstack/react-query-persist-client": "^4.16.1",
     "@tiptap/core": "2.0.0-beta.202",
     "@tiptap/extension-bold": "2.0.0-beta.202",
     "@tiptap/extension-bubble-menu": "2.0.0-beta.202",
@@ -42,6 +44,7 @@
     "emoji-mart": "^5.2.2",
     "firebase": "^9.13.0",
     "fuse.js": "^6.6.2",
+    "highlight.js": "^11.7.0",
     "lowlight": "^2.7.0",
     "nanoid": "^3.3.4",
     "prosemirror-model": "^1.18.1",

@@ -19,6 +19,7 @@
   border-radius: 12px;
   display: grid;
   grid-template-columns: minmax(0, 500px);
+  grid-template-rows: auto auto 1fr;
   animation: scaleup 0.1s ease-out;
 
   > *:not(.divider) {
@@ -150,5 +151,17 @@
       background: rgba(249, 249, 249, 0.52);
       color: hsla(0, 0%, 32%, 1);
     }
+  }
+}
+
+// max width and height
+@media (max-width: 600px) {
+  .files {
+    overflow: hidden;
+    max-height: none;
+  }
+
+  .content {
+    max-height: 80vh;
   }
 }

@@ -29,20 +29,6 @@ export default function CommandMenu() {
   const filesForUser = trpc.userRecentFiles.useQuery(undefined, {
     enabled: auth.currentUser != null,
     keepPreviousData: true,
-    onSuccess(data) {
-      if (!data) return;
-
-      window.localStorage.setItem("user:recent_files", JSON.stringify(data));
-    },
-    initialData: () => {
-      const prevRecentFiles = window.localStorage.getItem("user:recent_files");
-      if (!prevRecentFiles) return;
-      try {
-        return JSON.parse(prevRecentFiles);
-      } catch (e) {
-        return;
-      }
-    },
   });
 
   const fuse = useMemo(() => {

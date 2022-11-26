@@ -64,7 +64,9 @@ importers:
       '@radix-ui/react-alert-dialog': ^1.0.2
       '@radix-ui/react-dialog': ^1.0.0
       '@radix-ui/react-icons': ^1.1.1
+      '@tanstack/query-sync-storage-persister': ^4.15.1
       '@tanstack/react-query': ^4.7.2
+      '@tanstack/react-query-persist-client': ^4.16.1
       '@tiptap/core': 2.0.0-beta.202
       '@tiptap/extension-bold': 2.0.0-beta.202
       '@tiptap/extension-bubble-menu': 2.0.0-beta.202
@@ -97,6 +99,7 @@ importers:
       emoji-mart: ^5.2.2
       firebase: ^9.13.0
       fuse.js: ^6.6.2
+      highlight.js: ^11.7.0
       lowlight: ^2.7.0
       nanoid: ^3.3.4
       prosemirror-model: ^1.18.1
@@ -120,7 +123,9 @@ importers:
       '@radix-ui/react-alert-dialog': 1.0.2_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-dialog': 1.0.0_bb2bxwco6ptpubzwpazr52qf6i
       '@radix-ui/react-icons': 1.1.1_react@18.2.0
+      '@tanstack/query-sync-storage-persister': 4.15.1
       '@tanstack/react-query': 4.7.2_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query-persist-client': 4.16.1_dspoynat65epeeeyrvsyjbjkse
       '@tiptap/core': 2.0.0-beta.202
       '@tiptap/extension-bold': 2.0.0-beta.202_fosglmwb3u6jhi6bbjmnlbdsbu
       '@tiptap/extension-bubble-menu': 2.0.0-beta.202_fosglmwb3u6jhi6bbjmnlbdsbu
@@ -149,6 +154,7 @@ importers:
       emoji-mart: 5.2.2
       firebase: 9.13.0
       fuse.js: 6.6.2
+      highlight.js: 11.7.0
       lowlight: 2.7.0
       nanoid: 3.3.4
       prosemirror-model: 1.18.1
@@ -2691,6 +2697,31 @@ packages:
     resolution: {integrity: sha512-1zQuFsKShMhLY6rQYBEmkYiK9Zcb3lQcCVOTIgQcvliKIxPyZFaE/8LMtaITEEfgGF5qwYqHdm61+BUtpyNsrg==}
     dev: false
 
+  /@tanstack/query-persist-client-core/4.15.1:
+    resolution: {integrity: sha512-ldoGHNJ4Du83CT1CvJQqaJtQXEz4CdGcDmexVoyRG2q8DV9PAfYi+zls462ZbIWxlni93pkEgG1/q4mZVk2nqQ==}
+    peerDependencies:
+      '@tanstack/query-core': 4.15.1
+    dev: false
+
+  /@tanstack/query-sync-storage-persister/4.15.1:
+    resolution: {integrity: sha512-uMk8VCTkxTS9F99nSjbJRIsNalv6cwAtBJ6HgX41dYW2BCQR4ZQrM52oohIMbZo8DqlE/gGRtplbCbQ3NDfx4g==}
+    dependencies:
+      '@tanstack/query-persist-client-core': 4.15.1
+    transitivePeerDependencies:
+      - '@tanstack/query-core'
+    dev: false
+
+  /@tanstack/react-query-persist-client/4.16.1_dspoynat65epeeeyrvsyjbjkse:
+    resolution: {integrity: sha512-7i1Dj9amEDdRz34UMslf11uFs7QSpGqNRT9nFwc17pcJ4I3X7tSiEN1pgrAMg05eqnfGJgnSTZg+RpFR1Nsy+w==}
+    peerDependencies:
+      '@tanstack/react-query': 4.16.1
+    dependencies:
+      '@tanstack/query-persist-client-core': 4.15.1
+      '@tanstack/react-query': 4.7.2_biqbaboplfbrettd7655fr4n2y
+    transitivePeerDependencies:
+      - '@tanstack/query-core'
+    dev: false
+
   /@tanstack/react-query/4.7.2_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-4nJ0HxU2kxkaHZ/swJw39io3Bb3liiggJBsCCdFOydZOl8AJDRCor1E3GsOBrtn53HT01R9EIP4PY/6fyYdKsw==}
     peerDependencies:
@@ -4556,6 +4587,11 @@ packages:
 
   /highlight.js/11.6.0:
     resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
+  /highlight.js/11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
     engines: {node: '>=12.0.0'}
     dev: false
 

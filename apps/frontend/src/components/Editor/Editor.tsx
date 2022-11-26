@@ -16,11 +16,11 @@ import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import Text from "@tiptap/extension-text";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { lowlight } from "lowlight";
 import { WebsocketProvider } from "y-websocket";
 import * as Y from "yjs";
 import { useUser } from "../../state/UserProvider";
 import { getRandomColor } from "../../utils";
+import customLowlight from "./customLowlight";
 import "./Editor.scss";
 
 interface EditorProps {
@@ -54,7 +54,7 @@ export default ({ doc, provider }: EditorProps) => {
           nested: true,
         }),
         CodeBlockLowlight.configure({
-          lowlight,
+          lowlight: customLowlight,
         }),
         Collaboration.configure({
           document: doc,

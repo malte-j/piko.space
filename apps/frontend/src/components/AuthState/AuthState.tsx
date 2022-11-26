@@ -1,7 +1,6 @@
 import { ExitIcon } from "@radix-ui/react-icons";
 import { useUser } from "../../state/UserProvider";
 import s from "./AuthState.module.scss";
-import { client, trpc } from "../../utils/trpc";
 
 export default function AuthState() {
   const { user, signOut, firebaseUser } = useUser();

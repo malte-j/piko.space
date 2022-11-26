@@ -8,7 +8,7 @@ import Editor from "../../components/Editor/Editor";
 import FileInteractionPill from "../../components/FileInteractionPill/FileInteractionPill";
 import { useCommandMenuStore } from "../../state/CommandMenuStore";
 import { auth } from "../../utils/auth";
-import { client, trpc } from "../../utils/trpc";
+import { trpc } from "../../utils/trpc";
 import s from "./file.module.scss";
 
 export default function File() {
@@ -31,6 +31,8 @@ export default function File() {
     }
   );
 
+  const registerFileOpen = trpc.registerFileOpen.useMutation();
+
   /**
    * Register file open
    */
@@ -48,7 +50,7 @@ export default function File() {
     const registerUpdate = () => {
       if (hasToken && !registeredFileOpen) {
         registeredFileOpen = true;
-        client.registerFileOpen.mutate({ fileId: fileId! });
+        registerFileOpen.mutate({ fileId: fileId! });
         console.log("registered file open");
       }
     };
@@ -124,7 +126,7 @@ export default function File() {
           id={fileId!}
           copyText={window.location.href}
         />
-        
+
         <HamburgerMenuIcon
           className={s.menuIcon}
           onClick={() => setOpen(true)}

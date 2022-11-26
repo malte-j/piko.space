@@ -1,39 +1,44 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { trpc } from "../utils/trpc";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { QueryClient } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { httpBatchLink } from "@trpc/client";
+import React, { useMemo, useState } from "react";
 import { auth } from "../utils/auth";
+import { trpc, trpcClient } from "../utils/trpc";
 
 export function TRPCProvider({
   children,
 }: {
   children: React.ReactNode[] | React.ReactNode;
 }) {
-  const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      links: [
-        httpBatchLink({
-          url: import.meta.env.VITE_BACKEND_URL + "/trpc",
-          async headers() {
-            try {
-              const token = await auth.currentUser!.getIdToken();
-              if (!token) return {};
-              return {
-                authorization: "Bearer " + token,
-              };
-            } catch {
-              return {};
-            }
+  const queryClient = useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            cacheTime: Infinity,
           },
-        }),
-      ],
-    })
+        },
+      }),
+    []
+  );
+
+  const persister = useMemo(
+    () =>
+      createSyncStoragePersister({
+        storage: window.localStorage,
+      }),
+    []
   );
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <PersistQueryClientProvider
+        persistOptions={{ persister }}
+        client={queryClient}
+      >
+        {children}
+      </PersistQueryClientProvider>
     </trpc.Provider>
   );
 }
