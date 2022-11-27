@@ -20,35 +20,48 @@ export default function FileInteractionPill({
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [lastOpened, setLastOpened] = useState(0);
 
-  useEffect(() => {
-    const emojiRegex = /^\p{Emoji} /u;
-
-    if (emojiRegex.test(title)) {
-      const emojiAndText = title.match(/(.*?) (.*)/);
-      setEmoji(emojiAndText![1]);
-      setT(emojiAndText![2]);
-    } else {
-      setT(title);
-      setEmoji("");
-    }
-  }, [title]);
   const utils = trpc.useContext();
 
   const mutSetTitle = trpc.setFileTitle.useMutation({
-    onSuccess(input) {
+    onSuccess(_, context) {
       utils.userRecentFiles.invalidate();
+      utils.getFileTitle.setData(() => context.title, {
+        fileId: context.fileId,
+      });
     },
   });
 
   /**
    * Mutate the title if emoji or title text change
    */
-  useEffect(() => {
+  const saveTitle = (emoji: string, title?: string) =>
     mutSetTitle.mutate({
       fileId: id,
-      title: emoji !== "" ? emoji + " " + t : t,
+      title: emoji !== "" ? emoji + "\uE000" + (title ?? t) : title ?? t,
     });
-  }, [t, emoji]);
+
+  useEffect(() => {
+    // match <emoji>\uE000<title>
+    // \uE000 is a private use character that is not a valid emoji
+    const seperatorMatch = title.match(/^(.*)\uE000(.*)/);
+    if (seperatorMatch) {
+      const [_, emoji, title] = seperatorMatch;
+      setEmoji(emoji);
+      setT(title);
+      return;
+    }
+
+    const emojiRegex = /^\p{Emoji} /u;
+    if (emojiRegex.test(title)) {
+      const [_, emoji, text] = title.match(/(.*?) (.*)/)!;
+      setEmoji(emoji);
+      setT(text);
+      saveTitle(emoji, text);
+    } else {
+      setT(title);
+      setEmoji("");
+    }
+  }, [title]);
 
   return (
     <div className={s.copyToClipboard}>
@@ -62,6 +75,7 @@ export default function FileInteractionPill({
               setLastOpened(Date.now());
             } else {
               setEmoji("");
+              saveTitle("");
             }
           }}
         >
@@ -82,6 +96,7 @@ export default function FileInteractionPill({
             onEmojiSelect={(selection) => {
               setShowEmojiPicker(false);
               setEmoji(selection.native);
+              saveTitle(selection.native);
             }}
             previewPosition="none"
           />
@@ -89,7 +104,12 @@ export default function FileInteractionPill({
       </div>
 
       <span>{t}</span>
-      <input type="text" value={t} onChange={(e) => setT(e.target.value)} />
+      <input
+        type="text"
+        value={t}
+        onChange={(e) => setT(e.target.value)}
+        onKeyUp={() => saveTitle(emoji)}
+      />
 
       <Link2Icon
         className={s.linkIcon}

@@ -15,8 +15,8 @@ export default function File({
 }) {
   return (
     <li className={s.file} key={file.id} draggable="true">
-      <Link to={"/edit/" + file.id} onClick={onClick}  draggable="false">
-        {file.title ?? file.id}
+      <Link to={"/edit/" + file.id} onClick={onClick} draggable="false">
+        {file.title?.replace("\uE000", " ") ?? file.id}
       </Link>
       <span className={s.date}>
         {new Date(file.lastEdited * 1000).toLocaleDateString("de", {
