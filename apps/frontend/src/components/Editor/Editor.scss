@@ -166,18 +166,8 @@
   pointer-events: none;
   position: relative;
   word-break: normal;
-  // animation: fadeOut 0.2s ease-in-out 3s forwards;
-  // animation-delay: 3s;
 }
 
-// @keyframes fadeOut {
-//   from {
-//     opacity: 1;
-//   }
-//   to {
-//     opacity: 0;
-//   }
-// }
 
 /* Render the username above the caret */
 .collaboration-cursor__label {
@@ -193,55 +183,6 @@
   top: -1.4em;
   user-select: none;
   white-space: nowrap;
-}
-
-.bubbleMenu {
-  --col-active: #fff;
-  --col-inactive: #000;
-
-  border: 1px solid #000;
-  background: #000;
-  border-radius: 5px;
-  display: flex;
-  overflow: hidden;
-
-  button {
-    border: none;
-    cursor: pointer;
-    background: none;
-    display: block;
-    padding: 2px;
-    background: #fff;
-
-    &[data-active="true"] {
-      background: #000;
-
-      &:hover {
-        background: #313131;
-      }
-    }
-
-    svg {
-      display: block;
-    }
-
-    &:hover {
-      background: #f4f6f8;
-    }
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: calc(100% - 1px);
-    left: calc(50% - 4px);
-    height: 5px;
-    width: 9px;
-    background: url("/arrow_bg.svg") center;
-    background: #000;
-    // arrow down
-    clip-path: polygon(50% 80%, 0 0, 100% 0);
-  }
 }
 
 [data-placeholder] {
