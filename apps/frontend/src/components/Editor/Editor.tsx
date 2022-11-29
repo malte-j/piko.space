@@ -20,6 +20,7 @@ import { WebsocketProvider } from "y-websocket";
 import * as Y from "yjs";
 import { useUser } from "../../state/UserProvider";
 import { getRandomColor } from "../../utils";
+import { isOSX } from "../../utils/getPlatform";
 import customLowlight from "./customLowlight";
 import "./Editor.scss";
 
@@ -73,7 +74,7 @@ export default ({ doc, provider }: EditorProps) => {
           },
         }),
         Placeholder.configure({
-          placeholder: "Write something or press ctrl+k to open menu",
+          placeholder: `Write something or press ${isOSX ? "cmd+k" : "ctrl+k"} to open menu`,
         }),
       ],
     },

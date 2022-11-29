@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useCommandMenuStore } from "../../state/CommandMenuStore";
 import { useUser } from "../../state/UserProvider";
 import { auth } from "../../utils/auth";
+import { isOSX } from "../../utils/getPlatform";
 import { trpc } from "../../utils/trpc";
 import useMediaMatch from "../../utils/useMediaMatch";
 import AuthState from "../AuthState/AuthState";
@@ -59,7 +60,7 @@ export default function CommandMenu() {
     // open on command k
     document.addEventListener("keydown", (e) => {
       // open on ctrl k
-      if (e.key === "k" && e.ctrlKey) {
+      if (e.key === "k" && (isOSX ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
         setOpen(true);
       }

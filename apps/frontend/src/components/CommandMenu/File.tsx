@@ -16,17 +16,19 @@ export default function File({
   return (
     <li className={s.file} key={file.id} draggable="true">
       <Link to={"/edit/" + file.id} onClick={onClick} draggable="false">
-        {file.title?.replace("\uE000", " ") ?? file.id}
+        <div className={s.title}>
+          {file.title?.replace("\uE000", " ") ?? file.id}
+        </div>
+        <span className={s.date}>
+          {new Date(file.lastEdited * 1000).toLocaleDateString("de", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </span>
       </Link>
-      <span className={s.date}>
-        {new Date(file.lastEdited * 1000).toLocaleDateString("de", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-        })}
-      </span>
     </li>
   );
 }
