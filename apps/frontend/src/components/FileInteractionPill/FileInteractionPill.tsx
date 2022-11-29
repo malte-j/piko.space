@@ -1,10 +1,9 @@
+import data from "@emoji-mart/data";
 import { Link2Icon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import { trpc } from "../../utils/trpc";
-import data from "@emoji-mart/data";
-// import Picker from "@emoji-mart/react";
-import s from "./FileInteractionPill.module.scss";
 import EmojiMart from "../EmojiMart/EmojiMart";
+import s from "./FileInteractionPill.module.scss";
 
 export default function FileInteractionPill({
   id,

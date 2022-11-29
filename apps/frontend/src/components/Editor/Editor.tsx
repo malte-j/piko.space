@@ -55,6 +55,12 @@ export default ({ doc, provider }: EditorProps) => {
         }),
         CodeBlockLowlight.configure({
           lowlight: customLowlight,
+          HTMLAttributes: {
+            autocomplete: "off",
+            spellcheck: false,
+            autocorrect: "off",
+            autocapiatlize: "off",
+          },
         }),
         Collaboration.configure({
           document: doc,
