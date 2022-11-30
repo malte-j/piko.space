@@ -63,6 +63,17 @@ const appRouter = t.router({
 
       await redis.hset("filenames", req.input.fileId, req.input.title);
     }),
+  deleteFile: t.procedure
+    .input(z.object({ fileId: z.string() }))
+    .mutation(async (req) => {
+      if (req.ctx.user) {
+        redis.zrem(
+          "user:" + req.ctx.user.uid + ":recent_files",
+          req.input.fileId
+        );
+      }
+      redis.del("file:" + req.input.fileId + ":updates");
+    }),
   getFileTitle: t.procedure
     .input(z.object({ fileId: z.string() }))
     .query(async (req) => {
@@ -70,6 +81,7 @@ const appRouter = t.router({
 
       return name;
     }),
+
   registerFileOpen: t.procedure
     .input(
       z.object({

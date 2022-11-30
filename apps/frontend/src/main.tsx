@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CommandMenu from "./components/CommandMenu/CommandMenu";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import SignInPopup from "./components/SignInPopup/SignInPopup";
 import Index from "./pages";
@@ -31,6 +32,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <UserProvider>
       <BrowserRouter>
         <SignInPopup />
+        <CommandMenu />
+
         <Routes>
           <Route path="/" element={<Index />} />
           <Route

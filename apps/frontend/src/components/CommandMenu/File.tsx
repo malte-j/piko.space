@@ -1,5 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { TrashIcon } from "@radix-ui/react-icons";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { trpc } from "../../utils/trpc";
 import s from "./CommandMenu.module.scss";
 
 export default function File({
@@ -15,10 +19,23 @@ export default function File({
 }) {
   return (
     <li className={s.file} key={file.id} draggable="true">
-      <Link to={"/edit/" + file.id} onClick={onClick} draggable="false">
+      <Link
+        to={"/edit/" + file.id}
+        onClick={(e) => {
+          console.log(e.nativeEvent.target);
+
+          if (e.currentTarget.classList.contains(s.deleteButton)) return;
+          // onClick();
+        }}
+        draggable="false"
+      >
         <div className={s.title}>
           {file.title?.replace("\uE000", " ") ?? file.id}
         </div>
+        <div className={s.spacer}></div>
+
+        <DeleteButton fileId={file.id} />
+
         <span className={s.date}>
           {new Date(file.lastEdited * 1000).toLocaleDateString("de", {
             day: "2-digit",
@@ -30,5 +47,60 @@ export default function File({
         </span>
       </Link>
     </li>
+  );
+}
+
+export function DeleteButton({ fileId }: { fileId: string }) {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const utils = trpc.useContext();
+
+  const deleteFileRpc = trpc.deleteFile.useMutation({
+    onSuccess() {
+      utils.userRecentFiles.setData((d) => {
+        // return [];
+        return d?.filter((f) => f.id !== fileId);
+      });
+    },
+  });
+
+  function deleteFile(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    if (location.pathname.includes(fileId)) {
+      navigate("/");
+    }
+    try {
+      indexedDB.deleteDatabase("ydoc_" + fileId);
+    } catch {}
+    deleteFileRpc.mutate({ fileId });
+  }
+
+  return (
+    <DropdownMenu.Root open={open} onOpenChange={(e) => setOpen(e)}>
+      <DropdownMenu.Trigger asChild onClick={(e) => e.preventDefault()}>
+        <button className={s.deleteButton}>
+          <TrashIcon />
+        </button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content className={s.popover}>
+          <button onClick={deleteFile} type="button" className={s.primary}>
+            delete
+          </button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setOpen(false);
+            }}
+            type="button"
+            className={s.secondary}
+          >
+            cancel
+          </button>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 }

@@ -92,7 +92,7 @@
 }
 
 .content {
-  .file a {
+  .file > * {
     display: flex;
     word-break: break-all;
     gap: 12px;
@@ -101,9 +101,14 @@
     justify-content: space-between;
     position: relative;
     text-decoration: none;
+    color: #000;
 
     &:hover {
       background: rgba(0, 0, 0, 0.03);
+
+      // .deleteButton {
+      //   opacity: 1;
+      // }
     }
 
     &:focus-within {
@@ -111,17 +116,34 @@
     }
 
     .title {
-      color: #000;
-
       &:focus {
         outline: none;
       }
+    }
+
+    .spacer {
+      flex: 1 1 0;
     }
 
     .date {
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.8px;
       color: #969696;
+    }
+
+    .deleteButton {
+      // opacity: 0;
+      padding: 0;
+      margin: 0;
+      color: #969696;
+
+      &:hover {
+        color: #000;
+      }
+
+      svg {
+        display: block;
+      }
     }
   }
 }
@@ -146,6 +168,11 @@
       background: rgba(249, 249, 249, 0.52);
       color: hsla(0, 0%, 32%, 1);
     }
+
+    svg {
+      // pointer-events: none;
+      // user-select: none;
+    }
   }
 }
 
@@ -158,5 +185,40 @@
 
   .content {
     max-height: 80vh;
+  }
+}
+
+.popover {
+  z-index: 200;
+
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background-color: #dfdfdf;
+  filter: drop-shadow(0px 0px 3px rgba(11, 13, 23, 0.11))
+    drop-shadow(0px 0px 11px rgba(11, 13, 23, 0.11));
+  border-radius: 6px;
+  gap: 4px;
+
+  button {
+    display: flex;
+    padding: 2px 10px;
+    border-radius: 4px;
+
+    &.primary {
+      color: #171717;
+      background: #cccccc;
+      &:hover {
+        background: #a7a7a7;
+      }
+    }
+
+    &.secondary {
+      color: #373737;
+      background: none;
+      &:hover {
+        background: #cdcdcd;
+      }
+    }
   }
 }

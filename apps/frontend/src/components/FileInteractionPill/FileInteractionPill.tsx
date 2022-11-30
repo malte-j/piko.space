@@ -109,7 +109,6 @@ export default function FileInteractionPill({
         onChange={(e) => setT(e.target.value)}
         onKeyUp={() => saveTitle(emoji)}
       />
-
       <Link2Icon
         className={s.linkIcon}
         onClick={() => {

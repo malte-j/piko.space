@@ -5,7 +5,6 @@ import s from "./edit.module.scss";
 export default function Overview() {
   return (
     <div className={s.edit}>
-      <CommandMenu />
       <main>
         <Outlet />
       </main>
