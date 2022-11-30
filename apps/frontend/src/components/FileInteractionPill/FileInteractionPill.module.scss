@@ -107,3 +107,13 @@
     top: 0;
   }
 }
+
+.titleInput {
+  &[data-empty="true"] {
+    min-width: 7ch;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

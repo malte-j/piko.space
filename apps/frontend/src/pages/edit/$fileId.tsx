@@ -122,7 +122,7 @@ export default function File() {
         </ul>
 
         <FileInteractionPill
-          title={fileTitle || fileId!}
+          title={fileTitle}
           id={fileId!}
           copyText={window.location.href}
         />

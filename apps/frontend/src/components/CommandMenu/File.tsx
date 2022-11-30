@@ -19,16 +19,7 @@ export default function File({
 }) {
   return (
     <li className={s.file} key={file.id} draggable="true">
-      <Link
-        to={"/edit/" + file.id}
-        onClick={(e) => {
-          console.log(e.nativeEvent.target);
-
-          if (e.currentTarget.classList.contains(s.deleteButton)) return;
-          // onClick();
-        }}
-        draggable="false"
-      >
+      <Link to={"/edit/" + file.id} draggable="false">
         <div className={s.title}>
           {file.title?.replace("\uE000", " ") ?? file.id}
         </div>
@@ -60,7 +51,6 @@ export function DeleteButton({ fileId }: { fileId: string }) {
   const deleteFileRpc = trpc.deleteFile.useMutation({
     onSuccess() {
       utils.userRecentFiles.setData((d) => {
-        // return [];
         return d?.filter((f) => f.id !== fileId);
       });
     },
