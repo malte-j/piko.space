@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "go build -o dist/comp ./main.go"
+    "install": "go install"
   },
   "keywords": [],
   "author": "",

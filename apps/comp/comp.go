@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 	"text/template"
 
@@ -41,7 +42,7 @@ func initialModel() model {
 		if value[0] < 65 || value[0] > 90 {
 			return errMsg(fmt.Errorf("first letter must be uppercase"))
 		}
-		
+
 		return nil
 	}
 
@@ -106,6 +107,7 @@ export const {{.Name}} = () => {
 
 	className := strings.ToLower(name[0:1]) + name[1:]
 	os.Mkdir("./"+name, os.ModePerm)
+	tsxFilename := "./" + name + "/" + name + ".tsx"
 
 	tsxFile, _ := os.Create("./" + name + "/" + name + ".tsx")
 	defer tsxFile.Close()
@@ -119,7 +121,7 @@ export const {{.Name}} = () => {
 
 	tsxTemplate.Execute(tsxFile, fileInput)
 	scssTemplate.Execute(scssFile, fileInput)
-
+	exec.Command("code", tsxFilename).Run()
 }
 
 func (m model) View() string {
