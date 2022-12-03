@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/charmbracelet/bubbles/textinput"
-	tea "github.com/charmbracelet/bubbletea"
 	"log"
 	"os"
 	"strings"
 	"text/template"
+
+	"github.com/charmbracelet/bubbles/textinput"
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/fatih/color"
 )
 
 func main() {
@@ -31,6 +33,17 @@ func initialModel() model {
 	ti.Focus()
 	ti.CharLimit = 156
 	ti.Width = 20
+	ti.Validate = func(value string) error {
+		if len(value) == 0 {
+			return errMsg(fmt.Errorf("bame cannot be empty"))
+		}
+		// if first letter is not uppercase
+		if value[0] < 65 || value[0] > 90 {
+			return errMsg(fmt.Errorf("first letter must be uppercase"))
+		}
+		
+		return nil
+	}
 
 	return model{
 		textInput: ti,
@@ -49,11 +62,17 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.Type {
 		case tea.KeyEnter:
+			err := m.textInput.Validate(m.textInput.Value())
+			if err != nil {
+				return m, nil
+			}
+
 			if m.textInput.Value() == "" {
 				return m, tea.Quit
 			}
 
 			createFiles(m.textInput.Value())
+			return m, tea.Quit
 		case tea.KeyCtrlC, tea.KeyEsc:
 			return m, tea.Quit
 		}
@@ -104,10 +123,14 @@ export const {{.Name}} = () => {
 }
 
 func (m model) View() string {
+
+	green := color.New(color.FgGreen).SprintFunc()
+
 	return fmt.Sprintf(
-		"Name of the new component (in CamelCase)\n%s",
+		"Name of the new component (in CamelCase)\n%s\n",
 		m.textInput.View(),
-	) + "\n"
+	) +
+		fmt.Sprintf("  %s\n  %s", green("├─ "+m.textInput.Value()+".tsx"), green("└─ "+m.textInput.Value()+".module.scss"))
 }
 
 type FileInput struct {
