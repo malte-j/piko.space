@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { trpc } from "../../utils/trpc";
+import useMediaMatch from "../../utils/useMediaMatch";
 import s from "./CommandMenu.module.scss";
 
 export default function File({
@@ -17,9 +18,15 @@ export default function File({
   };
   onClick: () => void;
 }) {
+  const showFileOpenTime = useMediaMatch("(min-width: 500px)");
+
   return (
     <li className={s.file} key={file.id} draggable="true">
-      <Link to={"/edit/" + file.id} draggable="false">
+      <Link
+        to={"/edit/" + file.id}
+        draggable="false"
+        onClick={(e) => !e.isDefaultPrevented() && onClick()}
+      >
         <div className={s.title}>
           {file.title?.replace("\uE000", " ") ?? file.id}
         </div>
@@ -32,8 +39,8 @@ export default function File({
             day: "2-digit",
             month: "2-digit",
             year: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
+            hour: showFileOpenTime ? "2-digit" : undefined,
+            minute: showFileOpenTime ? "2-digit" : undefined,
           })}
         </span>
       </Link>
@@ -70,7 +77,7 @@ export function DeleteButton({ fileId }: { fileId: string }) {
   return (
     <DropdownMenu.Root open={open} onOpenChange={(e) => setOpen(e)}>
       <DropdownMenu.Trigger asChild onClick={(e) => e.preventDefault()}>
-        <button className={s.deleteButton}>
+        <button className={s.deleteButton} data-open={open}>
           <TrashIcon />
         </button>
       </DropdownMenu.Trigger>

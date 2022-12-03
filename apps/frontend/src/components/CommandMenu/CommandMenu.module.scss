@@ -72,7 +72,6 @@
   }
 
   &[data-search-active="true"] {
-    // height: 200px;
     height: var(--height);
   }
 
@@ -103,12 +102,13 @@
     text-decoration: none;
     color: #000;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background: rgba(0, 0, 0, 0.03);
 
-      // .deleteButton {
-      //   opacity: 1;
-      // }
+      .deleteButton {
+        opacity: 1;
+      }
     }
 
     &:focus-within {
@@ -116,6 +116,10 @@
     }
 
     .title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+
       &:focus {
         outline: none;
       }
@@ -129,13 +133,18 @@
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.8px;
       color: #969696;
+      white-space: nowrap;
     }
 
     .deleteButton {
-      // opacity: 0;
+      opacity: 0;
       padding: 0;
       margin: 0;
       color: #969696;
+
+      &[data-open="true"] {
+        opacity: 1;
+      }
 
       &:hover {
         color: #000;
@@ -152,7 +161,6 @@
   display: flex;
   gap: 8px;
   align-items: center;
-  // margin-bottom: 0 !important;
 
   button {
     display: flex;
@@ -167,11 +175,6 @@
     &[data-active="true"] {
       background: rgba(249, 249, 249, 0.52);
       color: hsla(0, 0%, 32%, 1);
-    }
-
-    svg {
-      // pointer-events: none;
-      // user-select: none;
     }
   }
 }
