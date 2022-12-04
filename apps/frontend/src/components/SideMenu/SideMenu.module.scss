@@ -1,3 +1,74 @@
 .sideMenu {
-  color: red;
-}	
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  padding-left: 16px;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  width: 12px;
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(229, 229, 229, 0.964);
+    border: 1px solid rgba(0, 0, 0, 0.26);
+    border-radius: 12px;
+    backdrop-filter: blur(1px);
+    transform: translateX(calc(-100% - 18px));
+
+    transition: transform 0.2s ease-out;
+
+    .spacer {
+      height: 1px;
+    }
+  }
+
+  &:hover,
+  &[data-open="true"],
+  &:focus-within {
+    .inner {
+      transform: translateX(0);
+    }
+  }
+
+  @media (pointer: coarse) {
+    display: none;
+  }
+}
+
+.button {
+  padding: 7px;
+  background: #dedede;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+  color: #5a5a5a;
+
+  svg {
+    display: block;
+  }
+}
+
+.dropdownContent {
+  z-index: 20;
+  padding: 12px;
+  gap: 10px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.823);
+  backdrop-filter: blur(4px);
+
+  border: 1px solid rgb(99, 99, 99);
+  border-radius: 12px;
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    line-height: 1.4;
+    font-size: 12px;
+  }
+}

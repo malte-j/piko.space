@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CommandMenu from "./components/CommandMenu/CommandMenu";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
+import { SideMenu } from "./components/SideMenu/SideMenu";
 import SignInPopup from "./components/SignInPopup/SignInPopup";
 import Index from "./pages";
 import Overview from "./pages/edit";
@@ -33,7 +34,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <SignInPopup />
         <CommandMenu />
-
         <Routes>
           <Route path="/" element={<Index />} />
           <Route
@@ -47,7 +47,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path=":file" element={<File />} />
           </Route>
         </Routes>
+
       </BrowserRouter>
+        <SideMenu />
     </UserProvider>
   </TRPCProvider>
 );
