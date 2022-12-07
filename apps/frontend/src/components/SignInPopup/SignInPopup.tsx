@@ -86,9 +86,8 @@ export default function SignInPopup() {
                       onClick={() => {
                         if (username.length === 0) return;
 
-                        signInAnonymously(auth).then(() => {
-                          login(username, true);
-                        });
+                        signInAnonymously(auth);
+                        login(username, true);
                       }}
                     >
                       <Pencil1Icon />
