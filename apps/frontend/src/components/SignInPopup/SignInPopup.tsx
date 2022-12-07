@@ -1,20 +1,18 @@
+import { Content, Portal, Root } from "@radix-ui/react-alert-dialog";
+import { ArrowLeftIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import {
-  Root,
-  Portal,
-  Overlay,
-  Content,
-  Title,
-  Action,
-} from "@radix-ui/react-alert-dialog";
-import { useEffect, useState } from "react";
+  getAuth,
+  GoogleAuthProvider,
+  signInAnonymously,
+  signInWithPopup,
+} from "firebase/auth";
+import { useState } from "react";
+import { useUser } from "../../state/UserProvider";
+import { googleAuthProvider } from "../../utils/auth";
 import Button from "../Button/Button";
+import Input from "../Input/Input";
 import Logo from "../Logo/Logo";
 import s from "./SignInPopup.module.scss";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { googleAuthProvider } from "../../utils/auth";
-import { useUser } from "../../state/UserProvider";
-import { ArrowLeftIcon, EnterIcon, Pencil1Icon } from "@radix-ui/react-icons";
-import Input from "../Input/Input";
 
 const auth = getAuth();
 
@@ -87,7 +85,10 @@ export default function SignInPopup() {
                       disabled={username.length < 1}
                       onClick={() => {
                         if (username.length === 0) return;
-                        login(username);
+
+                        signInAnonymously(auth).then(() => {
+                          login(username, true);
+                        });
                       }}
                     >
                       <Pencil1Icon />

@@ -1,5 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArchiveIcon, FileIcon, Pencil2Icon } from "@radix-ui/react-icons";
+import { motion } from "framer-motion";
 import Fuse from "fuse.js";
 import { nanoid } from "nanoid";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -79,90 +80,116 @@ export default function CommandMenu() {
           <Dialog.Content
             onOpenAutoFocus={(e) => isTouch && e.preventDefault()}
             className={s.content}
+            asChild
           >
-            <input
-              value={search}
-              onChange={(e) => {
-                if (search == "" || e.target.value == "") {
-                  setSearchHeight(fileListRef.current?.scrollHeight || 0);
-                }
-                setSearch(e.target.value);
+            <motion.div
+              layout="position"
+              transition={{
+                duration: 0.2,
+                ease: "easeInOut",
               }}
-              placeholder="suche..."
-              className={s.searchBar}
-              onKeyDown={(e) => {
-                if (searchResult.length == 0) return;
-                if (e.key != "Enter") return;
-                setOpen(false);
-                navigate(`/edit/${searchResult[0].id}`);
-                setSearch("");
-              }}
-            />
-            <div className={s.fileListMenu}>
-              <button
-                data-active={currentFileList === "recent"}
-                onClick={() => setCurrentFileList("recent")}
-              >
-                <FileIcon /> Recent Documents
-              </button>
-              <button
-                data-active={currentFileList === "archive"}
-                onClick={() => setCurrentFileList("archive")}
-              >
-                <ArchiveIcon /> Archive
-              </button>
-            </div>
-            <div
-              ref={fileListRef}
-              className={s.files}
-              style={
-                {
-                  "--height": searchHeight + "px",
-                } as any
-              }
-              data-height={searchHeight + " px"}
-              data-search-active={search != ""}
             >
-              <ul>
-                {searchResult.map((file) => (
-                  <File
-                    key={file.id}
-                    file={file}
-                    onClick={() => {
-                      setSearch("");
-                      setOpen(false);
-                    }}
-                  />
-                ))}
-              </ul>
-            </div>
-            <div className={s.divider}></div>
-            <details>
-              <summary>Details</summary>
-              <File
-                file={{
-                  id: nanoid(),
-                  title: "Neues Dokument",
-                  lastEdited: Date.now() / 1000,
+              <input
+                value={search}
+                onChange={(e) => {
+                  if (search == "" || e.target.value == "") {
+                    setSearchHeight(fileListRef.current?.scrollHeight || 0);
+                  }
+                  setSearch(e.target.value);
                 }}
-                onClick={() => {}}
-              />
-            </details>
-
-            <div className={s.divider}></div>
-            <div className={s.bottomBar}>
-              <Button
-                variant="outline"
-                onClick={() => {
+                placeholder="suche..."
+                className={s.searchBar}
+                onKeyDown={(e) => {
+                  if (searchResult.length == 0) return;
+                  if (e.key != "Enter") return;
                   setOpen(false);
-                  navigate("/edit/" + nanoid(11));
+                  navigate(`/edit/${searchResult[0].id}`);
+                  setSearch("");
                 }}
+              />
+              <div className={s.fileListMenu}>
+                <button
+                  data-active={currentFileList === "recent"}
+                  onClick={() => setCurrentFileList("recent")}
+                >
+                  <FileIcon /> <span>Recent Documents</span>
+                  {currentFileList === "recent" && (
+                    <motion.div
+                      layoutId="navBackground"
+                      className={s.navBackground}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {" "}
+                    </motion.div>
+                  )}
+                </button>
+                <button
+                  data-active={currentFileList === "archive"}
+                  onClick={() => setCurrentFileList("archive")}
+                >
+                  <ArchiveIcon /> <span>Archive</span>
+                  {currentFileList === "archive" && (
+                    <motion.div
+                      layoutId="navBackground"
+                      className={s.navBackground}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {" "}
+                    </motion.div>
+                  )}
+                </button>
+              </div>
+              <div
+                ref={fileListRef}
+                className={s.files}
+                style={
+                  {
+                    "--height": searchHeight + "px",
+                  } as any
+                }
+                data-height={searchHeight + " px"}
+                data-search-active={search != ""}
               >
-                <Pencil2Icon />
-                <span>new doc</span>
-              </Button>
-              <AuthState />
-            </div>
+                <ul>
+                  {searchResult.map((file) => (
+                    <File
+                      key={file.id}
+                      file={file}
+                      onClick={() => {
+                        setSearch("");
+                        setOpen(false);
+                      }}
+                    />
+                  ))}
+                </ul>
+              </div>
+              <div className={s.divider}></div>
+              <details>
+                <summary>Details</summary>
+                <File
+                  file={{
+                    id: nanoid(),
+                    title: "Neues Dokument",
+                    lastEdited: Date.now() / 1000,
+                  }}
+                  onClick={() => {}}
+                />
+              </details>
+              <div className={s.divider}></div>
+              <div className={s.bottomBar}>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setOpen(false);
+                    navigate("/edit/" + nanoid(11));
+                  }}
+                >
+                  <Pencil2Icon />
+                  <span>new doc</span>
+                </Button>
+                <AuthState />
+              </div>
+            </motion.div>
           </Dialog.Content>
         </Dialog.Overlay>
       </Dialog.Portal>

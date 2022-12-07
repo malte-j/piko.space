@@ -10,7 +10,7 @@ interface User {
 interface UserData {
   user: User | null;
   firebaseUser: FirebaseUser | null;
-  login: (username: string) => void;
+  login: (username: string, isAnonymous?: boolean) => void;
   signOut: () => void;
 }
 
@@ -48,14 +48,14 @@ function useUserData(): UserData {
   const auth = getAuth();
 
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
-  
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
     });
   });
 
-  function login(username: string) {
+  function login(username: string, isAnonymous = false) {
     if (localStorage) localStorage.setItem("username", username);
     setUser({
       name: username,

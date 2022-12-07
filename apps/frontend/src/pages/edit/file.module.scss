@@ -19,9 +19,15 @@
   display: flex;
   flex: 1;
   gap: 6px;
+  overflow-x: auto;
 
   li {
     list-style-type: none;
+    white-space: pre;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 .userPill {
@@ -38,7 +44,6 @@
   width: 15px;
   border-radius: 100px;
   background: rgb(188, 0, 0);
-
 
   &[data-online="true"] {
     background: rgba(4, 188, 0, 1);
