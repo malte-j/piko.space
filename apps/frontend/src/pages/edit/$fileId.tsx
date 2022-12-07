@@ -22,6 +22,7 @@ export default function File() {
   >([]);
   const [setOpen] = useCommandMenuStore((state) => [state.setOpen]);
   const { file: fileId } = useParams();
+  const utils = trpc.useContext();
 
   const { data: fileTitle } = trpc.getFileTitle.useQuery(
     { fileId: fileId! },
@@ -33,7 +34,9 @@ export default function File() {
     }
   );
 
-  const registerFileOpen = trpc.registerFileOpen.useMutation();
+  const registerFileOpen = trpc.registerFileOpen.useMutation({
+    onSuccess: () => utils.userRecentFiles.invalidate(),
+  });
 
   /**
    * Register file open
@@ -100,13 +103,11 @@ export default function File() {
 
   return (
     <>
-    {
-      fileTitle &&
-      <Helmet>
-        <title>{fileTitleToString(fileTitle)} | piko.space</title>
-      </Helmet>
-
-    }
+      {fileTitle && (
+        <Helmet>
+          <title>{fileTitleToString(fileTitle)} | piko.space</title>
+        </Helmet>
+      )}
       <div className={s.metadata}>
         {online ? (
           <img src="/icons/connectionStatusOnline.svg" />
