@@ -4,12 +4,14 @@ import { useParams } from "react-router-dom";
 import { IndexeddbPersistence } from "y-indexeddb";
 import { WebsocketProvider } from "y-websocket";
 import * as Y from "yjs";
+import { Helmet } from "react-helmet";
 import Editor from "../../components/Editor/Editor";
 import FileInteractionPill from "../../components/FileInteractionPill/FileInteractionPill";
 import { useCommandMenuStore } from "../../state/CommandMenuStore";
 import { auth } from "../../utils/auth";
 import { trpc } from "../../utils/trpc";
 import s from "./file.module.scss";
+import { fileTitleToString } from "../../utils/fileTitle";
 
 export default function File() {
   const [online, setOnline] = useState(false);
@@ -98,6 +100,13 @@ export default function File() {
 
   return (
     <>
+    {
+      fileTitle &&
+      <Helmet>
+        <title>{fileTitleToString(fileTitle)} | piko.space</title>
+      </Helmet>
+
+    }
       <div className={s.metadata}>
         {online ? (
           <img src="/icons/connectionStatusOnline.svg" />

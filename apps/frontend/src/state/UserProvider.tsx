@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { trpc } from "../utils/trpc";
 import { getAuth, User as FirebaseUser } from "firebase/auth";
 
 interface User {

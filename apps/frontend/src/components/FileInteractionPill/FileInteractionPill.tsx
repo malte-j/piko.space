@@ -1,6 +1,7 @@
 import data from "@emoji-mart/data";
 import { Link2Icon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
+import { mergeFileTitle, parseFileTitle } from "../../utils/fileTitle";
 import { trpc } from "../../utils/trpc";
 import useDebounce from "../../utils/useDebounce";
 import EmojiMart from "../EmojiMart/EmojiMart";
@@ -50,7 +51,7 @@ export default function FileInteractionPill({
   const saveTitle = (newEmoji?: string) =>
     mutSetTitle.mutate({
       fileId: id,
-      title: joinTitle(newEmoji ?? emoji, t),
+      title: mergeFileTitle(newEmoji ?? emoji, t),
     });
 
   /**
@@ -74,7 +75,7 @@ export default function FileInteractionPill({
       return;
     }
 
-    const { title: titleText, emoji, oldFormat } = splitTitle(title);
+    const { title: titleText, emoji, oldFormat } = parseFileTitle(title);
 
     if (oldFormat) {
       console.log("old format");
@@ -147,36 +148,4 @@ export default function FileInteractionPill({
       />
     </div>
   );
-}
-
-function splitTitle(title: string): {
-  emoji: string;
-  title: string;
-  oldFormat: boolean;
-} {
-  // try to get emoji from title using \uE000 as a separator
-  // match <emoji>\uE000<title>
-  const seperatorMatch = title.match(/^(.*)\uE000(.*)/);
-  if (seperatorMatch) {
-    const [_, emoji, title] = seperatorMatch;
-    return { emoji, title, oldFormat: false };
-  }
-
-  // try loading the emoji the old way to keep backwards compatibility
-  const emojiRegex = /^\p{Emoji} /u;
-  if (emojiRegex.test(title)) {
-    const [_, emoji, text] = title.match(/(.*?) (.*)/)!;
-    return { emoji, title: text, oldFormat: true };
-  }
-
-  return {
-    emoji: "",
-    title,
-    oldFormat: false,
-  };
-}
-
-function joinTitle(emoji: string, title: string) {
-  if (emoji === "") return title;
-  return emoji + "\uE000" + title;
 }

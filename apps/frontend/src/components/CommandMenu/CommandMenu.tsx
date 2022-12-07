@@ -164,18 +164,6 @@ export default function CommandMenu() {
                 </ul>
               </div>
               <div className={s.divider}></div>
-              <details>
-                <summary>Details</summary>
-                <File
-                  file={{
-                    id: nanoid(),
-                    title: "Neues Dokument",
-                    lastEdited: Date.now() / 1000,
-                  }}
-                  onClick={() => {}}
-                />
-              </details>
-              <div className={s.divider}></div>
               <div className={s.bottomBar}>
                 <Button
                   variant="outline"
