@@ -35,6 +35,7 @@ const appRouter = t.router({
       fileIds.push([rawFileIds[i], parseFloat(rawFileIds[i + 1])]);
     }
 
+    if (fileIds.length === 0) return [];
     const filenames = await redis.hmget(
       "filenames",
       ...fileIds.map((f) => f[0])
@@ -163,3 +164,5 @@ app.use(express.static(__dirname + "/dist"));
 app.get("/*", function (request, response) {
   response.sendFile(path.resolve(__dirname, "dist/index.html"));
 });
+
+// test
