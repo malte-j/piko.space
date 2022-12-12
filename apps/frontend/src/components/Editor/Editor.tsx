@@ -74,7 +74,9 @@ export default ({ doc, provider }: EditorProps) => {
           },
         }),
         Placeholder.configure({
-          placeholder: `Write something or press ${isOSX ? "cmd+k" : "ctrl+k"} to open menu`,
+          placeholder: `Write something or press ${
+            isOSX ? "⌘+k" : "ctrl+k"
+          } to open menu`,
         }),
       ],
     },
