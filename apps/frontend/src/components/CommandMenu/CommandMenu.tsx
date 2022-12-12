@@ -97,7 +97,7 @@ export default function CommandMenu() {
                   }
                   setSearch(e.target.value);
                 }}
-                placeholder="suche..."
+                placeholder="search..."
                 className={s.searchBar}
                 onKeyDown={(e) => {
                   if (searchResult.length == 0) return;
