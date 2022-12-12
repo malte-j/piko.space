@@ -57,6 +57,11 @@ export default function CommandMenu() {
     return fuse.search(search).map((res) => res.item);
   }, [fuse, search]);
 
+  const hasRecentFiles = useMemo(
+    () => filesForUser.data?.find((file) => file.title != null) != null,
+    [filesForUser.data]
+  );
+
   useEffect(() => {
     // open on command k
     document.addEventListener("keydown", (e) => {
@@ -150,6 +155,12 @@ export default function CommandMenu() {
                 data-height={searchHeight + " px"}
                 data-search-active={search != ""}
               >
+                {!hasRecentFiles && currentFileList === "recent" && (
+                  <p className={s.placeholderHint}>
+                    Name a file to make it show up in "Recent Documents"
+                  </p>
+                )}
+
                 <ul>
                   {searchResult.map((file) => (
                     <File

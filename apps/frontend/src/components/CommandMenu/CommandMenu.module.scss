@@ -90,6 +90,11 @@
   justify-content: space-between;
 }
 
+.placeholderHint {
+  margin-bottom: 12px;
+  color: #5e5e5e;
+}
+
 .content {
   .file > * {
     display: flex;
