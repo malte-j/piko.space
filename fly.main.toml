@@ -1,6 +1,6 @@
 # fly.toml file generated for piko-space on 2022-11-04T15:47:38+01:00
 
-app = "piko-space"
+app = "piko-space:og"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

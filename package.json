@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pnpm run -r --stream start"
+    "start": "pnpm run -r --stream start",
+    "deploy:main": "fly deploy --local-only --dockerfile main.Dockerfile --config fly.main.toml",
+    "deploy:og": "fly deploy --local-only --dockerfile og.Dockerfile --config fly.og.toml"
   },
   "keywords": [],
   "author": "",
