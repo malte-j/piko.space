@@ -12,10 +12,7 @@ const port = CONFIG.port;
 const server = http.createServer(app);
 
 wss.on("connection", (conn, req) => setupWSConnection(conn, req));
-
 server.on("upgrade", (request, socket, head) => {
-  // console.log(request.headers);
-
   // You may check auth of request here..
   // See https://github.com/websockets/ws#client-authentication
   wss.handleUpgrade(request, socket, head, (ws) => {

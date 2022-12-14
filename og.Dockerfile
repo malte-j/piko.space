@@ -6,10 +6,10 @@ WORKDIR /usr/src/app
 COPY pnpm-lock.yaml ./
 RUN pnpm fetch
 
-ADD package.json .
-ADD apps/og ./apps/og
+ADD  . ./
 
-RUN pnpm install -r --offline
-RUN pnpm run -r build 
+RUN pnpm --filter og install -r --offline
+RUN pnpm --filter og run -r build 
+RUN mv apps/og/src/assets apps/og/dist/assets
 
-CMD [ "node", "apps/og/dist/index.ts" ]
+CMD [ "node", "apps/og/dist/index.js" ]

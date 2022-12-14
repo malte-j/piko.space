@@ -8,8 +8,8 @@ RUN pnpm fetch
 
 ADD . ./
 
-RUN pnpm install -r --offline
-RUN pnpm run -r build 
+RUN pnpm --filter !og install -r --offline
+RUN pnpm --filter !og run -r build 
 
 
 FROM gcr.io/distroless/nodejs:16

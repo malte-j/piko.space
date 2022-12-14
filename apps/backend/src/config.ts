@@ -19,6 +19,7 @@ const configType = z.object({
     CALLBACK_DEBOUNCE_WAIT: z.number(),
     CALLBACK_DEBOUNCE_MAXWAIT: z.number(),
   }),
+  ogImageUrl: z.string(),
 });
 
 const CONFIG2 = configType.parse({
@@ -43,6 +44,7 @@ const CONFIG2 = configType.parse({
     CALLBACK_DEBOUNCE_MAXWAIT:
       parseInt(process.env.CALLBACK_DEBOUNCE_MAXWAIT!) || 10000,
   },
+  ogImageUrl: process.env.OG_IMAGE_URL,
 });
 
 // const CONFIG = {

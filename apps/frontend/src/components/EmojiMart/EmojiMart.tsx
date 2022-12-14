@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Picker, PickerProps } from "emoji-mart";
+import data from "@emoji-mart/data";
 
 export default function EmojiMart(
   props: PickerProps & {
-    data: any;
     maxFrequentRows?: number;
     emojiButtonSize?: number;
     onClickOutside?: () => void;
@@ -20,7 +20,7 @@ export default function EmojiMart(
   }
 
   useEffect(() => {
-    instance.current = new Picker({ ...props, ref } as any);
+    instance.current = new Picker({ ...props, ref, data } as any);
 
     return () => {
       instance.current = undefined;

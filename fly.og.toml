@@ -1,18 +1,19 @@
-# fly.toml file generated for piko-space on 2022-11-04T15:47:38+01:00
-
-app = "piko-space"
+app = "piko-space-og"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
-[build]
-  dockerfile = "main.Dockerfile"
-
 [env]
   PORT = "8080"
   HOST = "0.0.0.0"
-  OG_IMAGE_URL ="https://og.piko.space"
-  
+
+[build]
+  dockerfile = "og.Dockerfile"
+
+[mounts]
+  source="og_image_cache"
+  destination="/apps/og/_cache"
+
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
@@ -24,8 +25,8 @@ processes = []
   protocol = "tcp"
   script_checks = []
   [services.concurrency]
-    hard_limit = 70
-    soft_limit = 50
+    hard_limit = 25
+    soft_limit = 20
     type = "connections"
 
   [[services.ports]]

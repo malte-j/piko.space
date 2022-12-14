@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "DOTENV_CONFIG_PATH=.env.local HOST=0.0.0.0 PORT=5510 LOG=* npx ts-node-dev -r dotenv/config src/index.ts",
+    "start": "DOTENV_CONFIG_PATH=.env.local HOST=0.0.0.0 PORT=5510 OG_IMAGE_URL=https://og.piko.space LOG=* npx ts-node-dev -r dotenv/config src/index.ts",
     "build": "tsc && esbuild dist/index.js --bundle --platform=node --target=node16 --outfile=bundle.js",
     "debug": "pnpm run build && DOTENV_CONFIG_PATH=.env.local HOST=0.0.0.0 PORT=5510 LOG=* node -r dotenv/config bundle.js"
   },
@@ -18,6 +18,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "firebase-admin": "^11.2.0",
+    "hbs": "^4.2.0",
     "ioredis": "^5.0.5",
     "lib0": "^0.2.51",
     "lodash": "^4.17.21",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.14",
+    "@types/hbs": "^4.0.1",
     "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.31",
     "@types/ws": "^8.5.3",

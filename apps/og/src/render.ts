@@ -8,7 +8,12 @@ import * as crypto from "crypto";
 import * as path from "path";
 import * as fs from "fs/promises";
 
-export async function render(title: string) {
+export async function renderOGImage(
+  title: string,
+  filename: string
+): Promise<{
+  file: Buffer;
+}> {
   await fs.mkdir(path.join(__dirname, "..", "_cache"), { recursive: true });
 
   let canvas = new Canvas(600, 315),
@@ -31,17 +36,12 @@ export async function render(title: string) {
   ctx.textBaseline = "middle";
   ctx.fillText(generateWidthConstrainedString(ctx, title, 430), width / 2, 183);
 
-  // render to multiple destinations using a background thread
-  async function saveFile() {
-    const hash = crypto.createHash("sha256").update(title).digest("hex");
+  const fileBuffer = await canvas.toBuffer("png", { density: 2 });
+  fs.writeFile(path.join("__dirname", "..", "_cache", filename), fileBuffer);
 
-    const filename = hash + ".png";
-    // save a ‘retina’ image...
-    await canvas.saveAs(__dirname + "/../_cache/" + filename, { density: 2 });
-    return filename;
-  }
-
-  return saveFile();
+  return {
+    file: fileBuffer,
+  };
 }
 
 /**

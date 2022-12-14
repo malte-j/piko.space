@@ -157,12 +157,21 @@ app.use(
 
 // serve static assets normally
 app.use(express.static(__dirname + "/dist"));
-// console.log("dirname: " + __dirname);
+app.set("view engine", "html");
+app.engine("html", require("hbs").__express);
 
-// handle every other route with index.html, which will contain
-// a script tag to your application's JavaScript file(s).
-app.get("/*", function (request, response) {
-  response.sendFile(path.resolve(__dirname, "dist/index.html"));
+app.get("/edit/:fileId", (req, res) => {
+  const url = new URL(req.url, `http://${req.headers.host}`);
+  console.log("rendering", url.toString(), CONFIG.ogImageUrl);
+  // TODO: check if fileId matches the correct format
+  res.render(path.join(__dirname, "dist", "index"), {
+    og_image_url: CONFIG.ogImageUrl + "?fileId=" + req.params.fileId,
+    og_url: url.toString(),
+  });
 });
 
-// test
+app.get("/*", function (req, res) {
+  console.log("sending file", req.url);
+
+  res.sendFile(path.resolve(__dirname, "dist/index.html"));
+});

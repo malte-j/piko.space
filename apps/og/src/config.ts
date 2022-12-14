@@ -11,7 +11,7 @@ const configType = z.object({
   frontendUrl: z.string(),
 });
 
-const CONFIG2 = configType.parse({
+const CONFIG = configType.parse({
   host: process.env.HOST || "localhost",
   port: parseInt(process.env.PORT || "1234"),
   frontendUrl: process.env.FRONTEND_URL || "http://localhost:5500",
@@ -22,4 +22,4 @@ const CONFIG2 = configType.parse({
   },
 });
 
-export default CONFIG2;
+export default CONFIG;

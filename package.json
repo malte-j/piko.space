@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "pnpm run -r --stream start",
-    "deploy:main": "fly deploy --local-only --dockerfile main.Dockerfile --config fly.main.toml",
-    "deploy:og": "fly deploy --local-only --dockerfile og.Dockerfile --config fly.og.toml"
+    "deploy:main": "fly deploy --local-only --config fly.main.toml",
+    "deploy:og": "fly deploy --local-only --config fly.og.toml",
+    "build:og": "docker build -t piko-space-og -f og.Dockerfile .  "
   },
   "keywords": [],
   "author": "",

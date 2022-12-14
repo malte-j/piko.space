@@ -1,11 +1,12 @@
-import data from "@emoji-mart/data";
 import { Link2Icon } from "@radix-ui/react-icons";
+import React from "react";
 import { useEffect, useState } from "react";
 import { mergeFileTitle, parseFileTitle } from "../../utils/fileTitle";
 import { trpc } from "../../utils/trpc";
 import useDebounce from "../../utils/useDebounce";
-import EmojiMart from "../EmojiMart/EmojiMart";
 import s from "./FileInteractionPill.module.scss";
+
+const AsyncEmojiMart = React.lazy(() => import("../EmojiMart/EmojiMart"));
 
 export default function FileInteractionPill({
   id,
@@ -104,26 +105,27 @@ export default function FileInteractionPill({
         >
           {emoji}
         </div>
-        {showEmojiPicker && (
-          <EmojiMart
-            data={data}
-            autoFocus={true}
-            emojiSize={18}
-            maxFrequentRows={0}
-            emojiButtonSize={26}
-            onClickOutside={() => {
-              if (Date.now() - lastOpened > 100) {
+        <React.Suspense fallback={null}>
+          {showEmojiPicker && (
+            <AsyncEmojiMart
+              autoFocus={true}
+              emojiSize={18}
+              maxFrequentRows={0}
+              emojiButtonSize={26}
+              onClickOutside={() => {
+                if (Date.now() - lastOpened > 100) {
+                  setShowEmojiPicker(false);
+                }
+              }}
+              onEmojiSelect={(selection) => {
                 setShowEmojiPicker(false);
-              }
-            }}
-            onEmojiSelect={(selection) => {
-              setShowEmojiPicker(false);
-              setEmoji(selection.native);
-              saveTitle(selection.native);
-            }}
-            previewPosition="none"
-          />
-        )}
+                setEmoji(selection.native);
+                saveTitle(selection.native);
+              }}
+              previewPosition="none"
+            />
+          )}
+        </React.Suspense>
       </div>
 
       <span>{t}</span>
