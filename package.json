@@ -7,7 +7,8 @@
     "start": "pnpm run -r --stream start",
     "deploy:main": "fly deploy --local-only --config fly.main.toml",
     "deploy:og": "fly deploy --local-only --config fly.og.toml",
-    "build:og": "docker build -t piko-space-og -f og.Dockerfile .  "
+    "build:og": "docker build -t piko-space-og -f og.Dockerfile .  ",
+    "preview:og": "pnpm run build:og && docker run -p 8080:8080 piko-space-og"
   },
   "keywords": [],
   "author": "",

@@ -12,7 +12,7 @@ processes = []
 
 [mounts]
   source="og_image_cache"
-  destination="/apps/og/_cache"
+  destination="/usr/src/app/apps/og/dist/cache"
 
 [experimental]
   allowed_public_ports = []

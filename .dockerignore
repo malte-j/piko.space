@@ -1,5 +1,5 @@
 node_modules
-fly.toml
+fly.*.toml
 bundle.js
 .env.local
 account-key.json
@@ -7,3 +7,5 @@ dist
 dev-dist
 .git
 apps/backend/bundle.js
+README.md
+

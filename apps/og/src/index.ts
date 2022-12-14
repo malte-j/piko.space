@@ -1,11 +1,16 @@
 import { renderOGImage } from "./render";
 import * as express from "express";
-import * as path from "path";
 import CONFIG from "./config";
 import { z } from "zod";
-import { getFileTitle, getTitleHash } from "./api";
+import { getFileTitle } from "./api";
+import * as fs from "fs/promises";
 
 const app = express();
+try {
+  fs.mkdir(CONFIG.cacheDirectory, { recursive: true });
+} catch (e) {
+  console.log("Error creating cache directory: ", e);
+}
 
 app.get("/", async (req, res) => {
   const fileIdParse = z.string().safeParse(req.query.fileId);
@@ -16,25 +21,32 @@ app.get("/", async (req, res) => {
 
   const sendFileOptions = {
     maxAge: "1y",
-    root: path.join(__dirname, path.join("..", "_cache")),
+    root: CONFIG.cacheDirectory,
     lastModified: false,
     dotfiles: "deny",
   };
+  try {
+    res.sendFile(fileTitle.hash + ".png", sendFileOptions, (err) => {
+      if (!err) return;
+      console.log("Rendering OG image for " + fileTitle.name);
 
-  res.sendFile(fileTitle.hash + ".png", sendFileOptions, async (err) => {
-    if (!err) return;
-    console.log("Rendering OG image for " + fileTitle.name);
-
-    res.set("Content-Type", "image/png");
-    res.set("Cache-Control", `public, max-age=${60 * 60 * 24}`); // 1 day
-    const { file } = await renderOGImage(
-      fileTitle.name,
-      fileTitle.hash + ".png"
-    );
-    res.end(file);
-  });
+      res.set("Content-Type", "image/png");
+      res.set("Cache-Control", `public, max-age=${60 * 60 * 24}`); // 1 day
+      renderOGImage(fileTitle.name, fileTitle.hash + ".png")
+        .then(({ file }) => {
+          res.end(file);
+        })
+        .catch((e) => console.log(e));
+    });
+  } catch (e) {
+    console.log("Error: ", e);
+    res.status(500).send("Internal server error");
+  }
 });
 
 app.listen(CONFIG.port, () => {
-  console.log(`Example app listening at http://${CONFIG.host}:${CONFIG.port}`);
+  console.log(
+    `piko.space OG Image Generator listening at http://${CONFIG.host}:${CONFIG.port}`
+  );
+  console.log(`Using cache directory: ${CONFIG.cacheDirectory}`);
 });

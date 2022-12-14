@@ -4,9 +4,18 @@ import {
   loadImage,
   CanvasRenderingContext2D,
 } from "skia-canvas/lib";
-import * as crypto from "crypto";
 import * as path from "path";
 import * as fs from "fs/promises";
+import CONFIG from "./config";
+
+// 🚨 DANGER! Don't load these on each render, because it WILL cause a memory leak!
+FontLibrary.use("Inter", [__dirname + "/fonts/Inter/*.otf"]);
+FontLibrary.use(
+  "Emoji",
+  __dirname + "/fonts/NotoEmoji/NotoColorEmoji-Regular.ttf"
+);
+const imgLoader = loadImage(__dirname + "/assets/og_bg.png");
+
 
 export async function renderOGImage(
   title: string,
@@ -14,21 +23,16 @@ export async function renderOGImage(
 ): Promise<{
   file: Buffer;
 }> {
-  await fs.mkdir(path.join(__dirname, "..", "_cache"), { recursive: true });
-
   let canvas = new Canvas(600, 315),
     { width, height } = canvas,
     ctx = canvas.getContext("2d");
 
+  const img =   await imgLoader;
   // background image
-  let img = await loadImage(__dirname + "/assets/og_bg.png");
   ctx.drawImage(img, 0, 0, width, height);
 
-  FontLibrary.use("Inter", [__dirname + "/fonts/Inter/*.otf"]);
-  FontLibrary.use(
-    "Emoji",
-    __dirname + "/fonts/NotoEmoji/NotoColorEmoji-Regular.ttf"
-  );
+  console.log(`This process is pid ${process.pid}`); 
+
 
   ctx.font = "500 28px Inter, Emoji";
   ctx.fillStyle = "#2C0140";
@@ -37,7 +41,12 @@ export async function renderOGImage(
   ctx.fillText(generateWidthConstrainedString(ctx, title, 430), width / 2, 183);
 
   const fileBuffer = await canvas.toBuffer("png", { density: 2 });
-  fs.writeFile(path.join("__dirname", "..", "_cache", filename), fileBuffer);
+
+  try {
+    fs.writeFile(path.join(CONFIG.cacheDirectory, filename), fileBuffer);
+  } catch (e) {
+    console.log("Error writing file: ", e);
+  }
 
   return {
     file: fileBuffer,

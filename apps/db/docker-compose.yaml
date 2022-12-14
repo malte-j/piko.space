@@ -6,8 +6,29 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_AOF_ENABLED=no
-    
-    command: redis-server --appendonly yes
+    command: ["redis-server", "--bind", "redis", "--port", "6379", "--appendonly", "yes"]
 
     ports:
     -  "6379:6379"
+
+    networks:
+    - mynetwork 
+
+  web:
+    image: 'piko-space-og:latest'
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - PORT=8080
+      - HOST=0.0.0.0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    links:
+      - redis
+    
+
+networks:
+  mynetwork:
+    driver: bridge
