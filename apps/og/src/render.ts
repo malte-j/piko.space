@@ -16,7 +16,6 @@ FontLibrary.use(
 );
 const imgLoader = loadImage(__dirname + "/assets/og_bg.png");
 
-
 export async function renderOGImage(
   title: string,
   filename: string
@@ -27,12 +26,9 @@ export async function renderOGImage(
     { width, height } = canvas,
     ctx = canvas.getContext("2d");
 
-  const img =   await imgLoader;
   // background image
+  const img = await imgLoader;
   ctx.drawImage(img, 0, 0, width, height);
-
-  console.log(`This process is pid ${process.pid}`); 
-
 
   ctx.font = "500 28px Inter, Emoji";
   ctx.fillStyle = "#2C0140";
