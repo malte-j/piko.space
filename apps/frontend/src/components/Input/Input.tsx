@@ -7,11 +7,15 @@ export default function Input({
   value,
   onChange,
   placeholder,
+  maxLength,
+  onKeyUp,
 }: {
   label?: string;
   placeholder?: string;
   type?: "text" | "password";
   value: string;
+  maxLength?: number;
+  onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
@@ -22,6 +26,8 @@ export default function Input({
         type={type}
         value={value}
         onChange={onChange}
+        maxLength={maxLength}
+        onKeyUp={onKeyUp}
       />
     </label>
   );
