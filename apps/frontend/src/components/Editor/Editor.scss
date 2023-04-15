@@ -130,6 +130,11 @@
       > div {
         flex: 1 1 auto;
       }
+      &[data-checked="true"] {
+        text-decoration: line-through;
+        text-decoration-color: #4747474a;
+        color: #5e5e5e;
+      }
     }
   }
 
@@ -167,7 +172,6 @@
   position: relative;
   word-break: normal;
 }
-
 
 /* Render the username above the caret */
 .collaboration-cursor__label {
