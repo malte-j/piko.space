@@ -4,8 +4,6 @@ import * as awarenessProtocol from "y-protocols/awareness";
 import * as encoding from "lib0/encoding";
 import * as decoding from "lib0/decoding";
 import { mutex, map, logging } from "lib0";
-import { debounce } from "lodash";
-import { callbackHandler, isCallbackSet } from "./callback";
 import * as http from "http";
 import * as WebSocket from "ws";
 import { RedisPersistence } from "./RedisPersistence";

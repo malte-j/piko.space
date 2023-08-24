@@ -1,44 +1,41 @@
-# fly.toml file generated for piko-space on 2022-11-04T15:47:38+01:00
+# fly.toml app configuration file generated for piko-space on 2023-04-27T10:06:56+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
 app = "piko-space"
+primary_region = "ams"
 kill_signal = "SIGINT"
-kill_timeout = 5
-processes = []
+kill_timeout = "5s"
 
-[build]
-  dockerfile = "main.Dockerfile"
-
-[env]
-  PORT = "8080"
-  HOST = "0.0.0.0"
-  OG_IMAGE_URL ="https://og.piko.space"
-  
 [experimental]
-  allowed_public_ports = []
   auto_rollback = true
 
+[env]
+  HOST = "0.0.0.0"
+  OG_IMAGE_URL = "https://og.piko.space"
+  PORT = "8080"
+
 [[services]]
-  http_checks = []
+  protocol = "tcp"
   internal_port = 8080
   processes = ["app"]
-  protocol = "tcp"
-  script_checks = []
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
   [services.concurrency]
+    type = "connections"
     hard_limit = 70
     soft_limit = 50
-    type = "connections"
-
-  [[services.ports]]
-    force_https = true
-    handlers = ["http"]
-    port = 80
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
 
   [[services.tcp_checks]]
-    grace_period = "1s"
     interval = "15s"
-    restart_limit = 0
     timeout = "2s"
+    grace_period = "1s"
+    restart_limit = 0

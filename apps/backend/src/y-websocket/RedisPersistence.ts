@@ -209,7 +209,3 @@ export class RedisPersistence extends Observable<string> {
 function getItemUpdateKey(name: string) {
   return "file:" + name + ":updates";
 }
-
-function getItemKey(name: string) {
-  return "file:" + name + ":updates";
-}

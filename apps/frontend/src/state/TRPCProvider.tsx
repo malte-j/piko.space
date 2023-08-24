@@ -1,9 +1,7 @@
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { httpBatchLink } from "@trpc/client";
-import React, { useMemo, useState } from "react";
-import { auth } from "../utils/auth";
+import React, { useMemo } from "react";
 import { trpc, trpcClient } from "../utils/trpc";
 
 export function TRPCProvider({

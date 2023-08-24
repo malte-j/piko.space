@@ -114,7 +114,7 @@ export default function File() {
         ) : (
           <img src="/icons/connectionStatusOffline.svg" />
         )}
-        {/* <span className={s.circle} data-online={online}></span> */}
+
         <ul className={s.onlineUsers}>
           {onlineUsers.map((user) => (
             <li

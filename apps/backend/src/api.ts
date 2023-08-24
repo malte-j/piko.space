@@ -122,7 +122,6 @@ export async function createContext({
       return decodedToken;
     } catch (e) {
       console.log(e);
-
       return;
     }
   }
