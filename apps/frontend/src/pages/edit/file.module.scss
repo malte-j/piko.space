@@ -33,8 +33,7 @@
 .userPill {
   font-size: 11px;
   background: var(--color);
-  --color-text: hsl(from var(--color) h s calc(l - 5%));
-  color: var(--color-text);
+  color: #000000ed;
   border-radius: 1000px;
   padding: 2px 4px;
 }
