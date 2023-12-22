@@ -11,6 +11,11 @@ kill_timeout = "5s"
 [experimental]
   auto_rollback = true
 
+[build]
+  dockerfile = "main.Dockerfile"
+  ignorefile = ".dockerignore"
+
+
 [env]
   HOST = "0.0.0.0"
   OG_IMAGE_URL = "https://og.piko.space"

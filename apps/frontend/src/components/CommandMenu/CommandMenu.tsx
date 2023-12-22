@@ -28,7 +28,7 @@ export default function CommandMenu() {
 
   const isTouch = useMediaMatch("(pointer: coarse)");
 
-  const filesForUser = trpc.userRecentFiles.useQuery(undefined, {
+  const filesForUser = trpc.file.userRecentFiles.useQuery(undefined, {
     enabled: auth.currentUser != null,
     keepPreviousData: true,
   });

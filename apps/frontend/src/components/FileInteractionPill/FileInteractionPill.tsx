@@ -27,16 +27,16 @@ export default function FileInteractionPill({
 
   const utils = trpc.useContext();
 
-  const mutSetTitle = trpc.setFileTitle.useMutation({
+  const mutSetTitle = trpc.file.setFileTitle.useMutation({
     onMutate(variables) {
       console.log("mutating", variables);
 
-      utils.getFileTitle.setData(() => variables.title, {
+      utils.file.getFileTitle.setData(() => variables.title, {
         fileId: id,
       });
     },
     onSuccess(_, context) {
-      utils.userRecentFiles.invalidate();
+      utils.file.userRecentFiles.invalidate();
       // utils.getFileTitle.setData(() => t, {
       //   fileId: id,
       // });

@@ -1,6 +1,6 @@
 import { createTRPCReact, httpBatchLink } from "@trpc/react";
 // import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
-import type { AppRouter } from "../../../backend/src/api";
+import type { AppRouter } from "../../../backend/src/routers/_app";
 import { auth } from "./auth";
 
 // import { getAuth } from "firebase/auth";

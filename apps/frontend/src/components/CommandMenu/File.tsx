@@ -54,9 +54,9 @@ export function DeleteButton({ fileId }: { fileId: string }) {
 
   const utils = trpc.useContext();
 
-  const deleteFileRpc = trpc.deleteFile.useMutation({
+  const deleteFileRpc = trpc.file.deleteFile.useMutation({
     onSuccess() {
-      utils.userRecentFiles.setData((d) => {
+      utils.file.userRecentFiles.setData((d) => {
         return d?.filter((f) => f.id !== fileId);
       });
     },

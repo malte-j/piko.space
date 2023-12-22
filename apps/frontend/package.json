@@ -5,7 +5,8 @@
   "scripts": {
     "start": "DEMO=HELLO vite --port=5500 --host=0.0.0.0",
     "build": "WS_BACKEND_URL=\"wss://piko.space/ws\"  vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@emoji-mart/data": "^1.0.6",

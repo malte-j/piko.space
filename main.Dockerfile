@@ -1,4 +1,4 @@
-FROM node:16-bullseye-slim AS build
+FROM node:18-bullseye-slim AS build
 RUN npm install -g pnpm
 
 
@@ -12,7 +12,7 @@ RUN pnpm --filter !og install -r --offline
 RUN pnpm --filter !og run -r build 
 
 
-FROM gcr.io/distroless/nodejs:16
+FROM gcr.io/distroless/nodejs:18
 COPY --from=build /app/apps/backend/bundle.js /usr/src/app/
 COPY --from=build /app/apps/frontend/dist /usr/src/app/dist/
 WORKDIR /usr/src/app

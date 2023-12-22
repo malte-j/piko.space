@@ -24,7 +24,7 @@ export default function File() {
   const { file: fileId } = useParams();
   const utils = trpc.useContext();
 
-  const { data: fileTitle } = trpc.getFileTitle.useQuery(
+  const { data: fileTitle } = trpc.file.getFileTitle.useQuery(
     { fileId: fileId! },
     {
       enabled: fileId != null,
@@ -34,8 +34,8 @@ export default function File() {
     }
   );
 
-  const registerFileOpen = trpc.registerFileOpen.useMutation({
-    onSuccess: () => utils.userRecentFiles.invalidate(),
+  const registerFileOpen = trpc.file.registerFileOpen.useMutation({
+    onSuccess: () => utils.file.userRecentFiles.invalidate(),
   });
 
   /**
