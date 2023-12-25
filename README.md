@@ -6,3 +6,5 @@
 </a>
 
 ![Video of a user editing a file in piko.space](https://user-images.githubusercontent.com/12611076/200086646-59b967c7-85c1-4dde-a01f-73605a5e6be3.gif)
+
+Built on [Yjs](https://github.com/yjs/yjs) and [TipTap](https://github.com/ueberdosis/tiptap)
