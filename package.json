@@ -10,6 +10,9 @@
     "build:og": "docker build -t piko-space-og -f og.Dockerfile .  ",
     "preview:og": "pnpm run build:og && docker run -p 8080:8080 piko-space-og"
   },
+  "engines": {
+    "node": "18"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

@@ -9,5 +9,6 @@ export function createRedisConnection() {
     host: CONFIG.redis.host,
     password: CONFIG.redis.password,
     port: CONFIG.redis.port,
+    reconnectOnError: () => true,
   });
 }
