@@ -15,12 +15,11 @@ import AuthState from "../AuthState/AuthState";
 import Button from "../Button/Button";
 import s from "./CommandMenu.module.scss";
 import File from "./File";
+import OpenAISetup from "./VectorSearchSetup";
+import { createOpenAICompletion } from "../../utils/openAI";
 
 export default function CommandMenu() {
-  const [open, setOpen] = useCommandMenuStore((state) => [
-    state.navOpen,
-    state.setOpen,
-  ]);
+  const [open, setOpen] = useCommandMenuStore((s) => [s.navOpen, s.setOpen]);
   const { user } = useUser();
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -188,6 +187,7 @@ export default function CommandMenu() {
                 </Button>
                 <AuthState />
               </div>
+              <OpenAISetup />
             </motion.div>
           </Dialog.Content>
         </Dialog.Overlay>

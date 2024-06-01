@@ -1,8 +1,9 @@
-export function parseFileTitle(title: string): {
+export function parseFileTitle(title?: string | null): {
   emoji: string;
   title: string;
   oldFormat: boolean;
 } {
+  if (!title) return { emoji: "", title: "", oldFormat: false };
   // try to get emoji from title using \uE000 as a separator
   // match <emoji>\uE000<title>
   const seperatorMatch = title.match(/^(.*)\uE000(.*)/);

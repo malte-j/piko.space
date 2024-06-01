@@ -5,12 +5,16 @@ export default function Button(
   props: DetailedHTMLProps<
     ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  >  & {
+  > & {
     variant?: "regular" | "clear" | "outline";
   }
 ) {
   return (
-    <button className={s.button} {...props} data-variant={props.variant}>
+    <button
+      {...props}
+      className={`${s.button} ${props.className ?? ""}`}
+      data-variant={props.variant}
+    >
       {props.children}
     </button>
   );

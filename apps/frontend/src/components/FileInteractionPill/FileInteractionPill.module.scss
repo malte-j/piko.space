@@ -63,6 +63,9 @@
   .emojiPlaceholder {
     min-width: 15px;
     height: 15px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
 
     &::after {
       cursor: pointer;

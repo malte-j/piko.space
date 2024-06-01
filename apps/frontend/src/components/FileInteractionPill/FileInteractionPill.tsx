@@ -1,5 +1,5 @@
 import { Link2Icon } from "@radix-ui/react-icons";
-import React from "react";
+import React, { useMemo } from "react";
 import { useEffect, useState } from "react";
 import { mergeFileTitle, parseFileTitle } from "../../utils/fileTitle";
 import { trpc } from "../../utils/trpc";
@@ -17,43 +17,31 @@ export default function FileInteractionPill({
   title: string | null | undefined;
   copyText: string;
 }) {
-  const [t, setT] = useState("");
   const [typeCounter, setTypeCount] = useState(0);
   const debounceType = useDebounce<typeof typeCounter>(typeCounter, 500);
 
-  const [emoji, setEmoji] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [lastOpened, setLastOpened] = useState(0);
 
+  const { emoji, title: titleText } = useMemo(
+    () => parseFileTitle(title),
+    [title]
+  );
+  const [t, setT] = useState(titleText);
+  useEffect(() => setT(parseFileTitle(title).title), [title]); // changes from parent override local state (when title changes from parent, update local state)
+
   const utils = trpc.useContext();
 
-  const mutSetTitle = trpc.file.setFileTitle.useMutation({
+  const saveTitle = trpc.file.setFileTitle.useMutation({
     onMutate(variables) {
-      console.log("mutating", variables);
-
       utils.file.getFileTitle.setData(() => variables.title, {
         fileId: id,
       });
     },
-    onSuccess(_, context) {
+    onSuccess() {
       utils.file.userRecentFiles.invalidate();
-      // utils.getFileTitle.setData(() => t, {
-      //   fileId: id,
-      // });
-      // utils.getFileTitle.invalidate({
-      //   fileId: id,
-      // });
     },
   });
-
-  /**
-   * Mutate the title if emoji or title text change
-   */
-  const saveTitle = (newEmoji?: string) =>
-    mutSetTitle.mutate({
-      fileId: id,
-      title: mergeFileTitle(newEmoji ?? emoji, t),
-    });
 
   /**
    * debounce typing
@@ -61,30 +49,30 @@ export default function FileInteractionPill({
   useEffect(() => {
     if (debounceType == 0) return;
     console.log("debounce");
-    saveTitle();
+    saveTitle.mutate({
+      fileId: id,
+      title: mergeFileTitle(emoji, t),
+    });
   }, [debounceType]);
 
   /**
    * Load emoji and title from title string
    */
   useEffect(() => {
+    console.log("title change", title);
+
     // if we haven't gotten a network response, return
     if (title === undefined) return;
-    if (title === null) {
-      setT(id);
-      setEmoji("");
-      return;
-    }
 
     const { title: titleText, emoji, oldFormat } = parseFileTitle(title);
 
     if (oldFormat) {
-      console.log("old format");
-      saveTitle(emoji);
+      saveTitle.mutate({
+        fileId: id,
+        title: mergeFileTitle(emoji, titleText),
+      });
       return;
     }
-    setT(titleText);
-    setEmoji(emoji);
   }, [title]);
 
   return (
@@ -98,8 +86,10 @@ export default function FileInteractionPill({
               setShowEmojiPicker(true);
               setLastOpened(Date.now());
             } else {
-              setEmoji("");
-              saveTitle("");
+              saveTitle.mutate({
+                fileId: id,
+                title: mergeFileTitle("", t),
+              });
             }
           }}
         >
@@ -119,8 +109,10 @@ export default function FileInteractionPill({
               }}
               onEmojiSelect={(selection) => {
                 setShowEmojiPicker(false);
-                setEmoji(selection.native);
-                saveTitle(selection.native);
+                saveTitle.mutate({
+                  fileId: id,
+                  title: mergeFileTitle(selection.native, t),
+                });
               }}
               previewPosition="none"
             />

@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getAuth, User as FirebaseUser } from "firebase/auth";
+import { listModels } from "../utils/openAI";
 
-interface User {
+export interface User {
   name: string;
   isAnonymous: boolean;
 }
@@ -9,8 +10,11 @@ interface User {
 interface UserData {
   user: User | null;
   firebaseUser: FirebaseUser | null;
+  openAIKey: string | null;
   login: (username: string, isAnonymous?: boolean) => void;
   signOut: () => void;
+  setOpenAIKey: (key: string) => void;
+  openAIKeyError: string | null;
 }
 
 // @ts-ignore
@@ -44,6 +48,23 @@ function useUserData(): UserData {
         };
   });
 
+  const [openAIKey, _setOpenAIKey] = useState<string | null>(
+    localStorage?.getItem("openai-key") || null
+  );
+
+  const [openAIKeyError, _setOpenAIKeyError] = useState<string | null>(null);
+
+  const setOpenAIKey = async (key: string) => {
+    try {
+      await listModels({ apiKey: key }).then(console.log);
+      localStorage?.setItem("openai-key", key);
+      _setOpenAIKey(key);
+      _setOpenAIKeyError(null);
+    } catch (e: any) {
+      _setOpenAIKeyError(e.message);
+    }
+  };
+
   const auth = getAuth();
 
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
@@ -71,5 +92,13 @@ function useUserData(): UserData {
     });
   }
 
-  return { user, login, signOut, firebaseUser };
+  return {
+    user,
+    login,
+    signOut,
+    firebaseUser,
+    openAIKey,
+    setOpenAIKey,
+    openAIKeyError,
+  };
 }

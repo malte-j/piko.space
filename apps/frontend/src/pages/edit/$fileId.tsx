@@ -1,17 +1,17 @@
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 import { IndexeddbPersistence } from "y-indexeddb";
 import { WebsocketProvider } from "y-websocket";
 import * as Y from "yjs";
-import { Helmet } from "react-helmet";
 import Editor from "../../components/Editor/Editor";
 import FileInteractionPill from "../../components/FileInteractionPill/FileInteractionPill";
 import { useCommandMenuStore } from "../../state/CommandMenuStore";
 import { auth } from "../../utils/auth";
+import { fileTitleToString } from "../../utils/fileTitle";
 import { trpc } from "../../utils/trpc";
 import s from "./file.module.scss";
-import { fileTitleToString } from "../../utils/fileTitle";
 
 export default function File() {
   const [online, setOnline] = useState(false);
@@ -20,7 +20,7 @@ export default function File() {
   const [onlineUsers, setOnlineUsers] = useState<
     { color: string; name: string }[]
   >([]);
-  const [setOpen] = useCommandMenuStore((state) => [state.setOpen]);
+  const [setOpen] = useCommandMenuStore((s) => [s.setOpen]);
   const { file: fileId } = useParams();
   const utils = trpc.useContext();
 
@@ -103,11 +103,13 @@ export default function File() {
 
   return (
     <>
-      {fileTitle && (
-        <Helmet>
+      <Helmet>
+        {fileTitle ? (
           <title>{fileTitleToString(fileTitle)} | piko.space</title>
-        </Helmet>
-      )}
+        ) : (
+          <title>piko.space</title>
+        )}
+      </Helmet>
       <div className={s.metadata}>
         {online ? (
           <img src="/icons/connectionStatusOnline.svg" />
@@ -142,7 +144,15 @@ export default function File() {
           onClick={() => setOpen(true)}
         />
       </div>
-      {ydoc && provider && <Editor provider={provider} doc={ydoc} />}
+
+      {ydoc && provider && (
+        <Editor
+          provider={provider}
+          doc={ydoc}
+          fileTitle={fileTitle && fileTitleToString(fileTitle)}
+          fileId={fileId!}
+        />
+      )}
     </>
   );
 }

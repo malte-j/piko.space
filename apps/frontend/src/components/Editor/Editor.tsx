@@ -1,87 +1,59 @@
-import Bold from "@tiptap/extension-bold";
-import BulletList from "@tiptap/extension-bullet-list";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import Collaboration from "@tiptap/extension-collaboration";
-import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import Document from "@tiptap/extension-document";
-import HardBreak from "@tiptap/extension-hard-break";
-import Heading from "@tiptap/extension-heading";
-import Italic from "@tiptap/extension-italic";
-import Link from "@tiptap/extension-link";
-import ListItem from "@tiptap/extension-list-item";
-import OrderedList from "@tiptap/extension-ordered-list";
-import Paragraph from "@tiptap/extension-paragraph";
-import Placeholder from "@tiptap/extension-placeholder";
-import TaskItem from "@tiptap/extension-task-item";
-import TaskList from "@tiptap/extension-task-list";
-import Text from "@tiptap/extension-text";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
+import { useEffect } from "react";
 import { WebsocketProvider } from "y-websocket";
 import * as Y from "yjs";
+import { useCommandMenuStore } from "../../state/CommandMenuStore";
 import { useUser } from "../../state/UserProvider";
-import { getRandomColor } from "../../utils";
-import { isOSX } from "../../utils/getPlatform";
-import customLowlight from "./customLowlight";
+import { mergeFileTitle, parseFileTitle } from "../../utils/fileTitle";
+import { generateFileTitle } from "../../utils/prompts";
+import { trpc } from "../../utils/trpc";
 import "./Editor.scss";
+import { useFileEditor } from "./useFileEditor";
 
 interface EditorProps {
   doc: Y.Doc;
   provider: WebsocketProvider;
+  fileTitle: string | null | undefined;
+  fileId: string;
 }
 
-export default ({ doc, provider }: EditorProps) => {
+export default ({ doc, provider, fileTitle, fileId }: EditorProps) => {
   const { user } = useUser();
+  const setFileTitle = trpc.file.setFileTitle.useMutation();
+  const editor = useFileEditor({
+    doc,
+    user,
+    provider,
+  });
 
-  const editor = useEditor(
-    {
-      extensions: [
-        Document,
-        Paragraph,
-        HardBreak,
-        Text,
-        Bold,
-        Italic,
-        ListItem,
-        BulletList,
-        OrderedList,
-        Heading.configure({
-          levels: [1, 2, 3, 4],
-        }),
-        Link.configure({
-          openOnClick: false,
-        }),
-        TaskList,
-        TaskItem.configure({
-          nested: true,
-        }),
-        CodeBlockLowlight.configure({
-          lowlight: customLowlight,
-          HTMLAttributes: {
-            autocomplete: "off",
-            spellcheck: false,
-            autocorrect: "off",
-            autocapiatlize: "off",
+  const [navOpen] = useCommandMenuStore((state) => [state.navOpen]);
+
+  const openAIKey = useUser().openAIKey;
+  const utils = trpc.useContext();
+
+  useEffect(() => {
+    if (!navOpen || !openAIKey || !editor || fileTitle !== null) return;
+    const fileContent = editor.getText();
+    if (fileContent.length === 0) return;
+
+    generateFileTitle(openAIKey, fileContent).then((res) => {
+      const { emoji, title } = parseFileTitle(res.choices[0].message.content);
+      setFileTitle.mutate(
+        {
+          fileId: fileId,
+          title: mergeFileTitle(emoji, title),
+        },
+        {
+          onSuccess(_, context) {
+            utils.file.userRecentFiles.invalidate();
+            utils.file.getFileTitle.setData(() => context.title, {
+              fileId: context.fileId,
+            });
           },
-        }),
-        Collaboration.configure({
-          document: doc,
-        }),
-        CollaborationCursor.configure({
-          provider,
-          user: {
-            name: user!.name,
-            color: getRandomColor(),
-          },
-        }),
-        Placeholder.configure({
-          placeholder: `Write something or press ${
-            isOSX ? "⌘+k" : "ctrl+k"
-          } to open menu`,
-        }),
-      ],
-    },
-    [doc, user, provider]
-  );
+        }
+      );
+    });
+  }, [navOpen, openAIKey, editor]);
 
   return <EditorContent editor={editor} />;
 };
