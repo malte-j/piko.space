@@ -10,15 +10,15 @@
   align-items: center;
   justify-content: center;
   background: rgba(51, 51, 52, 0.138);
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(3px);
 }
 
 .content {
-  background: rgba(229, 229, 229, 0.964);
+  background: rgba(229, 229, 229, 0.923);
   border: 1px solid rgba(0, 0, 0, 0.71);
   border-radius: 12px;
   display: grid;
-  grid-template-columns: minmax(0, 500px);
+  grid-template-columns: minmax(0, 590px);
   grid-template-rows: auto auto 1fr;
   animation: scaleup 0.1s ease-out;
 
@@ -158,42 +158,6 @@
       svg {
         display: block;
       }
-    }
-  }
-}
-
-.fileListMenu {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-
-  button {
-    display: flex;
-    gap: 6px;
-    font-weight: 500;
-    align-items: center;
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 100px;
-    color: hsla(0, 0%, 59%, 1);
-    position: relative;
-
-    &[data-active="true"] {
-      color: hsla(0, 0%, 32%, 1);
-    }
-
-    > :not(.navBackground) {
-      z-index: 1;
-    }
-
-    .navBackground {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(249, 249, 249, 0.52);
-      border-radius: 1000px;
     }
   }
 }

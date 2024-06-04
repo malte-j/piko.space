@@ -18,17 +18,25 @@ Requirements:
 
 Install dependencies with pnpm:
 ```bash
+# Install dependencies
 pnpm i
 ```
 
 Start the app, including running the containers required for the backend.
 
 ```bash
+# Run the app
 pnpm start
 ```
 
-<!-- # Deploying 
+# Deploying 
 
-The deployment is ready for fly.io. To run the  -->
+Deployment is already set up if you're using fly.io. You need to edit the `fly.main.toml`and `fly.og.toml` to enter your own project credentials and domain. Then, you can deploy the app using the following commands:
 
-<!-- #  -->
+```sh
+# Deploy the main app
+pnpm deploy:main
+
+# Deploy the OG image generator
+pnpm deploy:og
+```

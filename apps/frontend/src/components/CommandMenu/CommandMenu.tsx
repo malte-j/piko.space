@@ -1,22 +1,28 @@
+import { useCommandMenuStore } from "@/state/CommandMenuStore";
+import { useUser } from "@/state/UserProvider";
+import { auth } from "@/utils/auth";
+import { isOSX } from "@/utils/getPlatform";
+import { trpc } from "@/utils/trpc";
+import useMediaMatch from "@/utils/useMediaMatch";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ArchiveIcon, FileIcon, Pencil2Icon } from "@radix-ui/react-icons";
-import { motion } from "framer-motion";
+import {
+  ArchiveIcon,
+  FileIcon,
+  GearIcon,
+  Pencil2Icon,
+} from "@radix-ui/react-icons";
+import { LayoutGroup, motion } from "framer-motion";
 import Fuse from "fuse.js";
 import { nanoid } from "nanoid";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCommandMenuStore } from "../../state/CommandMenuStore";
-import { useUser } from "../../state/UserProvider";
-import { auth } from "../../utils/auth";
-import { isOSX } from "../../utils/getPlatform";
-import { trpc } from "../../utils/trpc";
-import useMediaMatch from "../../utils/useMediaMatch";
 import AuthState from "../AuthState/AuthState";
 import Button from "../Button/Button";
 import s from "./CommandMenu.module.scss";
 import File from "./File";
+import { PillMenu } from "./PillMenu/PillMenu";
 import OpenAISetup from "./VectorSearchSetup";
-import { createOpenAICompletion } from "../../utils/openAI";
+import { Settings } from "./Settings/Settings";
 
 export default function CommandMenu() {
   const [open, setOpen] = useCommandMenuStore((s) => [s.navOpen, s.setOpen]);
@@ -38,15 +44,15 @@ export default function CommandMenu() {
     });
   }, [filesForUser]);
 
-  const [currentFileList, setCurrentFileList] = useState<"recent" | "archive">(
-    "recent"
-  );
+  const [currentTab, setCurrentTab] = useState<
+    "recent" | "archive" | "settings"
+  >("recent");
 
   const searchResult = useMemo(() => {
     if (!filesForUser.data) return [];
 
     if (search === "") {
-      switch (currentFileList) {
+      switch (currentTab) {
         case "recent":
           return filesForUser.data.filter((file) => file.title != null);
         case "archive":
@@ -62,9 +68,8 @@ export default function CommandMenu() {
   );
 
   useEffect(() => {
-    // open on command k
     document.addEventListener("keydown", (e) => {
-      // open on ctrl k
+      // open on (⌘ / ctrl) + k
       if (e.key === "k" && (isOSX ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
         setOpen(true);
@@ -111,50 +116,43 @@ export default function CommandMenu() {
                   setSearch("");
                 }}
               />
-              <div className={s.fileListMenu}>
-                <button
-                  data-active={currentFileList === "recent"}
-                  onClick={() => setCurrentFileList("recent")}
-                >
-                  <FileIcon /> <span>Recent Documents</span>
-                  {currentFileList === "recent" && (
-                    <motion.div
-                      layoutId="navBackground"
-                      className={s.navBackground}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {" "}
-                    </motion.div>
-                  )}
-                </button>
-                <button
-                  data-active={currentFileList === "archive"}
-                  onClick={() => setCurrentFileList("archive")}
-                >
-                  <ArchiveIcon /> <span>Archive</span>
-                  {currentFileList === "archive" && (
-                    <motion.div
-                      layoutId="navBackground"
-                      className={s.navBackground}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {" "}
-                    </motion.div>
-                  )}
-                </button>
-              </div>
+              <PillMenu
+                activeTab={currentTab}
+                setActiveTab={setCurrentTab}
+                tabs={[
+                  {
+                    label: "Recent Documents",
+                    value: "recent",
+                    icon: <FileIcon />,
+                  },
+                  {
+                    label: "Archive",
+                    value: "archive",
+                    icon: <ArchiveIcon />,
+                  },
+                  {
+                    label: "",
+                    value: "settings",
+                    icon: <GearIcon />,
+                  },
+                ]}
+              />
               <div
                 ref={fileListRef}
                 className={s.files}
                 style={
                   {
                     "--height": searchHeight + "px",
+                    display:
+                      currentTab == "recent" || currentTab == "archive"
+                        ? undefined
+                        : "none",
                   } as any
                 }
                 data-height={searchHeight + " px"}
                 data-search-active={search != ""}
               >
-                {!hasRecentFiles && currentFileList === "recent" && (
+                {!hasRecentFiles && currentTab === "recent" && (
                   <p className={s.placeholderHint}>
                     Name a file to make it show up in "Recent Documents"
                   </p>
@@ -173,6 +171,14 @@ export default function CommandMenu() {
                   ))}
                 </ul>
               </div>
+              <div
+                style={
+                  currentTab !== "settings" ? { display: "none" } : undefined
+                }
+              >
+                <Settings />
+              </div>
+
               <div className={s.divider}></div>
               <div className={s.bottomBar}>
                 <Button

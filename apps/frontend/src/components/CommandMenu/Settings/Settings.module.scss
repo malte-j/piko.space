@@ -1,0 +1,25 @@
+.settings {
+  margin-bottom: 8px;
+
+  section {
+    background: #ffffff52;
+    padding: 14px;
+    border-radius: 8px;
+
+    & + section {
+      margin-top: 18px;
+    }
+  }
+}
+
+.userSettings {
+  display: flex;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 1000px;
+  display: block;
+}

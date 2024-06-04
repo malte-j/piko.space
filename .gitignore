@@ -3,3 +3,4 @@ dist
 dev-dist
 .env.local
 .DS_Store
+.npmrc

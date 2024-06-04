@@ -1,0 +1,36 @@
+
+.fileListMenu {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  button {
+    display: flex;
+    gap: 6px;
+    font-weight: 500;
+    align-items: center;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    color: hsla(0, 0%, 59%, 1);
+    position: relative;
+
+    &[data-active="true"] {
+      color: hsla(0, 0%, 32%, 1);
+    }
+
+    > :not(.navBackground) {
+      z-index: 1;
+    }
+
+    .navBackground {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(249, 249, 249, 0.52);
+      border-radius: 1000px;
+    }
+  }
+}
