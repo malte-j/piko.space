@@ -56,7 +56,6 @@ export default function File() {
       if (hasToken && !registeredFileOpen) {
         registeredFileOpen = true;
         registerFileOpen.mutate({ fileId: fileId! });
-        console.log("registered file open");
       }
     };
 

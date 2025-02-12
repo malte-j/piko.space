@@ -48,7 +48,6 @@ export default function FileInteractionPill({
    */
   useEffect(() => {
     if (debounceType == 0) return;
-    console.log("debounce");
     saveTitle.mutate({
       fileId: id,
       title: mergeFileTitle(emoji, t),
@@ -59,8 +58,6 @@ export default function FileInteractionPill({
    * Load emoji and title from title string
    */
   useEffect(() => {
-    console.log("title change", title);
-
     // if we haven't gotten a network response, return
     if (title === undefined) return;
 

@@ -8,7 +8,7 @@ RUN pnpm fetch
 
 ADD . ./
 
-RUN pnpm --filter !og install -r --offline
+RUN pnpm --filter !og install -r
 RUN pnpm --filter !og run -r build 
 
 

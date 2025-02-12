@@ -23,9 +23,11 @@ import { getRandomColor } from "../../utils";
 import { isOSX } from "../../utils/getPlatform";
 import "./Editor.scss";
 import customLowlight from "./customLowlight";
+import { MyExtension } from "./Extension";
 
 const editorConfig = {
   extensions: [
+    MyExtension,
     Document,
     Paragraph,
     HardBreak,
@@ -45,6 +47,7 @@ const editorConfig = {
     TaskItem.configure({
       nested: true,
     }),
+
     CodeBlockLowlight.configure({
       lowlight: customLowlight,
       HTMLAttributes: {
