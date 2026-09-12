@@ -4,3 +4,7 @@ dev-dist
 .env.local
 .DS_Store
 .npmrc
+.wrangler
+.dev.vars*
+!.dev.vars.example
+migration-manifest*.json

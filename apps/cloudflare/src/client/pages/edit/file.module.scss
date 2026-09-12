@@ -1,0 +1,58 @@
+.metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  margin-bottom: 20px;
+  gap: 15px;
+
+  a {
+    color: #585858;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.onlineUsers {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+  overflow-x: auto;
+
+  li {
+    list-style-type: none;
+    white-space: pre;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.userPill {
+  font-size: 11px;
+  background: var(--color);
+  color: #000000ed;
+  border-radius: 1000px;
+  padding: 2px 4px;
+}
+
+.circle {
+  height: 15px;
+  width: 15px;
+  border-radius: 100px;
+  background: rgb(188, 0, 0);
+
+  &[data-online="true"] {
+    background: rgba(4, 188, 0, 1);
+  }
+}
+
+.menuIcon {
+  cursor: pointer;
+
+  @media (pointer: fine) {
+    display: none;
+  }
+}

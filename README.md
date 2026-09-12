@@ -12,7 +12,7 @@ Built on [Yjs](https://github.com/yjs/yjs) and [TipTap](https://github.com/ueber
 # Setup
 
 Requirements:
-- Node ^21
+- Node 24
 - pnpm
 - Docker & Docker Compose
 
@@ -22,16 +22,24 @@ Install dependencies with pnpm:
 pnpm i
 ```
 
-Start the app, including running the containers required for the backend.
+Start the Cloudflare Workers application with local Durable Object and D1 storage:
 
 ```bash
 # Run the app
 pnpm start
 ```
 
+The previous Fly.io/Redis stack remains available during migration with `pnpm start:legacy`. See `apps/cloudflare/README.md` for D1 provisioning, deployment, and the one-shot Redis migration procedure.
+
 # Deploying 
 
-Deployment is already set up if you're using fly.io. You need to edit the `fly.main.toml`and `fly.og.toml` to enter your own project credentials and domain. Then, you can deploy the app using the following commands:
+The new application deploys to Cloudflare Workers after its D1 database ID has been configured:
+
+```sh
+pnpm deploy:cloudflare
+```
+
+The legacy Fly.io configuration is retained for the seven-day rollback window:
 
 ```sh
 # Deploy the main app

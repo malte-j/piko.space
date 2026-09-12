@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pnpm run -r --stream start",
+    "start": "pnpm --filter cloudflare start",
+    "start:legacy": "pnpm --filter db --filter backend --filter frontend --filter og --parallel start",
+    "check:cloudflare": "pnpm --filter cloudflare typecheck && pnpm --filter cloudflare test && pnpm --filter cloudflare build",
+    "deploy:cloudflare": "pnpm --filter cloudflare run deploy",
     "deploy:main": "fly deploy --local-only --config fly.main.toml",
     "deploy:og": "fly deploy --local-only --config fly.og.toml",
     "build:og": "docker build -t piko-space-og -f og.Dockerfile .  ",
     "preview:og": "pnpm run build:og && docker run -p 8080:8080 piko-space-og"
   },
   "engines": {
-    "node": "18"
+    "node": "24.x"
   },
   "keywords": [],
   "author": "",

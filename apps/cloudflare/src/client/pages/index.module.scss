@@ -1,0 +1,34 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  gap: 60px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: #7b7b7b;
+    font-weight: 500;
+    position: relative;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  a {
+    position: absolute;
+    right: 12px;
+    bottom: calc(9px);
+    color: rgb(64, 64, 64);
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+  font-family: "Inter";
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+:root {
+  --col-hover: #f5f5f5;
+  --col-secondary: #3a3a3a;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  font-size: 12px;
+}
+
+body {
+  background: #e5e5e5;
+  overflow-x: hidden;
+}
+
+// reset
+
+button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #adadad #e5e5e5;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}

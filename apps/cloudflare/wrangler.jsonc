@@ -1,0 +1,62 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "piko-space",
+	"main": "src/worker.tsx",
+	"compatibility_date": "2026-09-12",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"routes": [
+		{
+			"pattern": "piko.space",
+			"custom_domain": true
+		}
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application",
+		"run_worker_first": [
+			"/api/*",
+			"/ws/*",
+			"/og/*",
+			"/edit/*"
+		]
+	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "DOCUMENTS",
+				"class_name": "DocumentDurableObject"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"DocumentDurableObject"
+			]
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "piko-space",
+			"database_id": "9fe083c5-5246-4508-97b3-56f82f448922"
+		}
+	],
+	"vars": {
+		"FIREBASE_PROJECT_ID": "piko-363817",
+		"MIGRATION_ENABLED": "true"
+	},
+	"observability": {
+		"enabled": true,
+		"logs": {
+			"head_sampling_rate": 1
+		},
+		"traces": {
+			"enabled": true,
+			"head_sampling_rate": 0.01
+		}
+	}
+}

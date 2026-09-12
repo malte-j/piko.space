@@ -1,0 +1,33 @@
+.addFileInteraction {
+  position: relative;
+  margin-bottom: 5px;
+
+  &[data-empty="true"]::after {
+    content: "+ new file";
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: calc(50% - 7px);
+    transition: left 0.1s ease-in-out, color 0.1s ease-in-out;
+  }
+
+  &:focus-within::after {
+    left: 8px;
+    color: rgb(149, 149, 149);
+  }
+
+  button {
+    position: absolute;
+    right: 4px;
+    top: calc(50% - 7.5px);
+  }
+
+  input {
+    border: none;
+    padding-right: 24px;
+
+    &:focus, &:not(:placeholder-shown)  {
+      outline: 1px solid black;
+    }
+  }
+}
