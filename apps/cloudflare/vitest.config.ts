@@ -1,6 +1,6 @@
 import { cloudflareTest, readD1Migrations } from "@cloudflare/vitest-plugin";
 import { defineConfig } from "vitest/config";
-import { cloudflareOgPlugin } from "./og-vite-plugin";
+import { cloudflareOgPlugin } from "./og-vite-plugin.ts";
 
 const migrations = await readD1Migrations("./migrations");
 
